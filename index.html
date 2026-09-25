@@ -4,10 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>For Douaa 🤍</title>
+<title>Happy Birthday Douaa 🤍</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+/* =========================
+   RESET
+========================= */
 
 *{
     margin:0;
@@ -15,153 +18,204 @@
     box-sizing:border-box;
 }
 
-html,body{
+html,
+body{
     width:100%;
-    min-height:100%;
+    height:100%;
 }
 
 body{
-    min-height:100vh;
-    font-family:'Poppins',sans-serif;
-    background:
-        radial-gradient(circle at top,#351522 0%,#12080d 45%,#050305 100%);
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow-x:hidden;
-    padding:25px 15px;
+    overflow:hidden;
+    background:#050305;
+    color:#fff;
+    font-family:Georgia, "Times New Roman", serif;
 }
 
+
 /* =========================
-   INTRO
+   INTRO SCREEN
 ========================= */
 
-.intro{
+#intro{
     position:fixed;
     inset:0;
+
     display:flex;
-    flex-direction:column;
     align-items:center;
     justify-content:center;
-    z-index:20;
+
     background:
-        radial-gradient(circle,#32131f,#090507 75%);
+        radial-gradient(
+            circle at center,
+            #35121f 0%,
+            #12070d 45%,
+            #050305 100%
+        );
+
+    z-index:100;
 }
 
-.start-btn{
-    padding:17px 38px;
-    border:1px solid rgba(255,210,225,.6);
+.intro-box{
+    text-align:center;
+    padding:35px;
+}
+
+.intro-title{
+    font-size:clamp(28px,5vw,55px);
+    letter-spacing:3px;
+    margin-bottom:30px;
+
+    color:#ffe5ef;
+
+    text-shadow:
+        0 0 20px rgba(255,150,190,.45);
+}
+
+#startBtn{
+    padding:15px 35px;
+
+    border:1px solid rgba(255,210,225,.7);
     border-radius:50px;
-    background:rgba(40,10,25,.75);
+
+    background:rgba(255,255,255,.08);
+
     color:white;
-    font-family:'Cinzel',serif;
-    font-size:1.05rem;
-    letter-spacing:1.5px;
+
+    font-size:16px;
+    letter-spacing:2px;
+
     cursor:pointer;
 
-    box-shadow:
-        0 0 30px rgba(235,130,165,.3),
-        inset 0 0 20px rgba(255,255,255,.04);
-
-    transition:.3s ease;
+    transition:.3s;
 }
 
-.start-btn:hover{
+#startBtn:hover{
+    background:rgba(255,180,210,.18);
     transform:scale(1.05);
-    box-shadow:
-        0 0 50px rgba(235,130,165,.5);
 }
 
-.countdown{
+#chrono{
     display:none;
-    margin-top:20px;
-    font-family:'Cinzel',serif;
-    font-size:4.5rem;
-    color:#fff;
+
+    margin-top:25px;
+
+    font-size:42px;
+    letter-spacing:5px;
+
+    color:#ffdce9;
+
     text-shadow:
-        0 0 25px rgba(255,170,200,.7);
+        0 0 20px rgba(255,130,180,.6);
 }
+
 
 /* =========================
-   MAIN AREA
+   MAIN
 ========================= */
 
-.main{
-    display:none;
+#main{
     position:relative;
-    width:100%;
-    max-width:850px;
-    min-height:92vh;
 
-    justify-content:center;
+    width:100%;
+    height:100vh;
+
+    display:none;
+
     align-items:center;
+    justify-content:center;
+
+    overflow:hidden;
 }
 
+
 /* =========================
-   PORTRAIT VIDEO
+   VIDEO FRAME
+   SAME SIZE AS MESSAGE
 ========================= */
 
 .video-frame{
     position:absolute;
 
-    width:min(390px,82vw);
-    height:min(690px,86vh);
+    width:min(760px,91vw);
+    height:87vh;
 
     left:50%;
     top:50%;
 
     transform:translate(-50%,-50%);
 
-    border-radius:35px;
+    border-radius:32px;
 
     overflow:hidden;
 
     background:#090609;
 
-    box-shadow:
-        0 0 80px rgba(230,110,155,.28),
-        0 25px 80px rgba(0,0,0,.75);
+    border:1px solid rgba(255,215,230,.35);
 
-    border:
-        1px solid rgba(255,220,235,.28);
+    box-shadow:
+        0 25px 90px rgba(0,0,0,.75),
+        0 0 50px rgba(225,105,150,.18);
 
     z-index:1;
 }
 
+
+/* =========================
+   LANDSCAPE VIDEO
+========================= */
+
 #bgVideo{
+    position:absolute;
+
     width:100%;
     height:100%;
 
-    object-fit:cover;
+    left:0;
+    top:0;
 
     display:block;
 
+    /*
+       Landscape video fills
+       the complete frame
+    */
+    object-fit:cover;
+
+    object-position:center;
+
     filter:
-        brightness(.55)
+        brightness(.48)
         saturate(.9);
 
-    transform:scale(1.01);
+    z-index:1;
+
+    pointer-events:none;
 }
 
-/* Dark layer above video */
+
+/* DARK OVERLAY */
 
 .video-dark{
     position:absolute;
+
     inset:0;
 
     background:
         linear-gradient(
             180deg,
-            rgba(0,0,0,.15),
+            rgba(0,0,0,.10),
             rgba(0,0,0,.55)
         );
 
     z-index:2;
+
+    pointer-events:none;
 }
+
 
 /* =========================
    MESSAGE CARD
+   EXACT SAME SIZE
 ========================= */
 
 .card{
@@ -169,6 +223,7 @@ body{
 
     width:min(760px,91vw);
 
+    height:87vh;
     max-height:87vh;
 
     overflow-y:auto;
@@ -177,20 +232,19 @@ body{
 
     text-align:center;
 
-    background:
-        rgba(13,7,12,.82);
+    background:rgba(13,7,12,.70);
 
     border:
-        1px solid rgba(255,215,230,.5);
+        1px solid
+        rgba(255,215,230,.5);
 
     border-radius:32px;
 
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
 
     box-shadow:
         0 25px 90px rgba(0,0,0,.72),
-        0 0 45px rgba(225,105,150,.15),
         inset 0 0 35px rgba(255,180,205,.05);
 
     z-index:5;
@@ -198,134 +252,124 @@ body{
     animation:cardIn 1.4s ease;
 }
 
-@keyframes cardIn{
 
-    from{
-        opacity:0;
-        transform:
-            translateY(35px)
-            scale(.94);
-    }
-
-    to{
-        opacity:1;
-        transform:
-            translateY(0)
-            scale(1);
-    }
-}
-
-/* =========================
-   PHOTO
-========================= */
-
-.photo-wrap{
-    display:flex;
-    justify-content:center;
-    margin-bottom:18px;
-}
-
-.birthday-photo{
-    width:155px;
-    height:155px;
-
-    object-fit:cover;
-
-    border-radius:50%;
-
-    border:
-        3px solid
-        rgba(255,225,235,.85);
-
-    box-shadow:
-        0 0 25px rgba(245,145,180,.5),
-        0 0 70px rgba(245,145,180,.16);
-}
-
-/* =========================
-   TITLE
-========================= */
-
-h1{
-    font-family:'Cinzel',serif;
-
-    font-size:
-        clamp(2rem,5vw,3.5rem);
-
-    font-weight:600;
-
-    color:#fff5f8;
-
-    margin-bottom:10px;
-
-    letter-spacing:1px;
-
-    text-shadow:
-        0 0 22px rgba(255,170,200,.45);
-}
-
-.subtitle{
-    color:#f1c5d4;
-
-    font-size:.95rem;
-
-    margin-bottom:25px;
-
-    letter-spacing:1px;
-}
-
-/* =========================
-   MESSAGE
-========================= */
-
-.message-box{
-    max-width:680px;
-    margin:auto;
-}
-
-.message-box p{
-    color:#f9edf2;
-
-    font-size:
-        clamp(.98rem,2vw,1.08rem);
-
-    line-height:1.85;
-
-    margin-bottom:18px;
-
-    text-shadow:
-        0 2px 7px rgba(0,0,0,.8);
-}
-
-.signature{
-    display:block;
-
-    margin-top:25px;
-
-    color:#ffd5e2;
-
-    font-family:'Cinzel',serif;
-
-    font-size:1.15rem;
-
-    letter-spacing:1px;
-
-    text-shadow:
-        0 0 15px rgba(255,170,200,.5);
-}
-
-/* =========================
-   SCROLLBAR
-========================= */
+/* CARD SCROLLBAR */
 
 .card::-webkit-scrollbar{
     width:5px;
 }
 
 .card::-webkit-scrollbar-thumb{
-    background:rgba(255,190,210,.35);
-    border-radius:20px;
+    background:rgba(255,200,220,.35);
+    border-radius:10px;
 }
+
+
+/* =========================
+   PHOTO
+========================= */
+
+.photo{
+    width:170px;
+    height:170px;
+
+    margin:0 auto 22px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:
+        3px solid
+        rgba(255,220,235,.75);
+
+    box-shadow:
+        0 0 35px rgba(255,140,190,.35);
+
+    display:block;
+}
+
+
+/* =========================
+   TITLE
+========================= */
+
+h1{
+    font-size:clamp(28px,5vw,48px);
+
+    margin-bottom:10px;
+
+    color:#ffe6ef;
+
+    text-shadow:
+        0 0 20px rgba(255,150,190,.4);
+}
+
+.subtitle{
+    color:#eab8c9;
+
+    font-size:15px;
+
+    margin-bottom:30px;
+
+    letter-spacing:1px;
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+.message{
+    font-size:17px;
+
+    line-height:1.9;
+
+    color:#f5dfe7;
+
+    text-align:left;
+}
+
+.message p{
+    margin-bottom:20px;
+}
+
+
+/* =========================
+   SIGNATURE
+========================= */
+
+.signature{
+    margin-top:25px;
+
+    text-align:center;
+
+    color:#ffd2e2;
+
+    font-size:19px;
+
+    font-style:italic;
+}
+
+
+/* =========================
+   CARD ANIMATION
+========================= */
+
+@keyframes cardIn{
+
+    from{
+        opacity:0;
+        transform:scale(.94) translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1) translateY(0);
+    }
+
+}
+
 
 /* =========================
    MOBILE
@@ -333,80 +377,116 @@ h1{
 
 @media(max-width:600px){
 
-    body{
-        padding:15px 10px;
-    }
-
     .video-frame{
-        width:88vw;
-        height:82vh;
-        border-radius:28px;
-    }
-
-    .card{
         width:91vw;
-        max-height:82vh;
-
-        padding:
-            25px
-            18px
-            30px;
+        height:82vh;
 
         border-radius:26px;
     }
 
-    .birthday-photo{
+    .card{
+        width:91vw;
+
+        height:82vh;
+        max-height:82vh;
+
+        padding:25px 18px 30px;
+
+        border-radius:26px;
+    }
+
+    .photo{
         width:125px;
         height:125px;
     }
 
-    .message-box p{
-        font-size:.94rem;
-        line-height:1.75;
+    .message{
+        font-size:15px;
+        line-height:1.8;
     }
 
-    .countdown{
-        font-size:3.7rem;
+    h1{
+        font-size:30px;
     }
+
 }
+
+
+/* =========================
+   FALLING HEARTS
+========================= */
+
+.heart{
+    position:fixed;
+
+    top:-20px;
+
+    color:#ffd5e4;
+
+    font-size:16px;
+
+    pointer-events:none;
+
+    z-index:20;
+
+    animation:fall linear forwards;
+}
+
+@keyframes fall{
+
+    to{
+        transform:
+            translateY(110vh)
+            rotate(360deg);
+
+        opacity:0;
+    }
+
+}
+
 </style>
 </head>
 
+
 <body>
+
 
 <!-- =========================
      INTRO
 ========================= -->
 
-<div class="intro" id="introBox">
+<section id="intro">
 
-    <button
-        class="start-btn"
-        id="startBtn">
+    <div class="intro-box">
 
-        Open Something For You 🤍
+        <div class="intro-title">
+            Something special for Douaa 🤍
+        </div>
 
-    </button>
+        <button id="startBtn">
+            OPEN YOUR BIRTHDAY GIFT
+        </button>
 
-    <div
-        class="countdown"
-        id="chrono">
-
-        00:10
+        <div id="chrono">
+            00:10
+        </div>
 
     </div>
 
-</div>
+</section>
+
 
 
 <!-- =========================
-     MAIN
+     MAIN PAGE
 ========================= -->
 
-<div class="main" id="main">
+<main id="main">
 
 
-    <!-- PORTRAIT VIDEO -->
+    <!-- =====================
+         VIDEO
+    ====================== -->
 
     <div class="video-frame">
 
@@ -414,7 +494,8 @@ h1{
             id="bgVideo"
             playsinline
             loop
-            preload="auto">
+            preload="auto"
+            webkit-playsinline>
 
             <source
                 src="douaahouidheg_3308418329708534230.mp4"
@@ -427,22 +508,24 @@ h1{
     </div>
 
 
-    <!-- MESSAGE IN FRONT OF VIDEO -->
+
+    <!-- =====================
+         MESSAGE CARD
+    ====================== -->
 
     <div class="card">
 
 
         <!-- PHOTO -->
 
-        <div class="photo-wrap">
+        <img
+            class="photo"
+            src="1000101121.jpg"
+            alt="Douaa">
 
-            <img
-                src="1000101121.jpg"
-                alt="Douaa"
-                class="birthday-photo">
 
-        </div>
 
+        <!-- TITLE -->
 
         <h1>
             Happy Birthday, Douaa 🤍
@@ -454,32 +537,34 @@ h1{
         </div>
 
 
-        <div class="message-box">
 
+        <!-- MESSAGE -->
+
+        <div class="message">
 
             <p>
                 Happy birthday to a girl who has become
-                really special to me. 🤍 I know this
-                message is late, but some feelings
-                deserve more than a simple “happy
-                birthday” sent in a hurry.
+                really special to me. 🤍
+                I know this message is late, but some
+                feelings deserve more than a simple
+                “happy birthday” sent in a hurry.
             </p>
 
 
             <p>
                 Your birthday was supposed to be the day
                 we finally met, and honestly, I was really
-                looking forward to that moment. It didn't
-                happen the way we planned, but that
-                doesn't change how happy I am that I
-                got to know you.
+                looking forward to that moment.
+                It didn't happen the way we planned,
+                but that doesn't change how happy I am
+                that I got to know you.
             </p>
 
 
             <p>
                 I don't know exactly what the future has
-                planned for us, but I know that having
-                you in my life means something to me.
+                planned for us, but I know that having you
+                in my life means something to me.
                 I love the way you are, the little things
                 about you, your energy, and the way you
                 can make a normal moment feel special
@@ -502,17 +587,17 @@ h1{
             </p>
 
 
-            <span class="signature">
+            <div class="signature">
                 Happy birthday, Douaa.
                 You deserve beautiful things. 🥀
-            </span>
-
+            </div>
 
         </div>
 
     </div>
 
-</div>
+</main>
+
 
 
 <script>
@@ -527,8 +612,8 @@ const startBtn =
 const chrono =
     document.getElementById("chrono");
 
-const introBox =
-    document.getElementById("introBox");
+const intro =
+    document.getElementById("intro");
 
 const main =
     document.getElementById("main");
@@ -537,50 +622,29 @@ const bgVideo =
     document.getElementById("bgVideo");
 
 
+/* =========================
+   COUNTDOWN
+========================= */
+
 let timeLeft = 10;
 
 
 /* =========================
-   START
+   START BUTTON
 ========================= */
 
 startBtn.addEventListener("click", () => {
 
-
-    /* Hide button */
-
     startBtn.style.display = "none";
-
-
-    /* Show countdown */
 
     chrono.style.display = "block";
 
+    chrono.innerText = "00:10";
 
-    /*
-       Start video.
-       Countdown doesn't depend on video.
-    */
-
-    bgVideo.muted = false;
-
-    bgVideo.play().catch(() => {
-
-        bgVideo.muted = true;
-
-        bgVideo.play().catch(() => {});
-
-    });
-
-
-    /* =========================
-       COUNTDOWN
-    ========================= */
 
     const timer = setInterval(() => {
 
         timeLeft--;
-
 
         chrono.innerText =
             "00:" +
@@ -589,25 +653,98 @@ startBtn.addEventListener("click", () => {
                 : timeLeft);
 
 
+        /* =====================
+           AFTER 10 SECONDS
+        ===================== */
+
         if(timeLeft <= 0){
 
             clearInterval(timer);
 
 
-            /* Hide intro */
+            /* Hide countdown */
 
-            introBox.style.display = "none";
+            intro.style.display = "none";
 
 
-            /* Show video + message */
+            /* Show main page */
 
             main.style.display = "flex";
+
+
+            /*
+               Start video ONLY NOW.
+               It will keep playing because
+               loop=true.
+            */
+
+            bgVideo.currentTime = 0;
+
+            bgVideo.muted = false;
+
+            bgVideo.play().catch(() => {
+
+                /*
+                   If browser blocks audio,
+                   video continues muted.
+                */
+
+                bgVideo.muted = true;
+
+                bgVideo.play().catch(() => {});
+
+            });
+
+
+            /* Start hearts */
+
+            startHearts();
 
         }
 
     },1000);
 
 });
+
+
+
+/* =========================
+   FALLING HEARTS
+========================= */
+
+function startHearts(){
+
+    setInterval(() => {
+
+        const heart =
+            document.createElement("div");
+
+        heart.className = "heart";
+
+        heart.innerHTML =
+            Math.random() > .5 ? "♡" : "♥";
+
+        heart.style.left =
+            Math.random() * 100 + "vw";
+
+        heart.style.fontSize =
+            (12 + Math.random() * 12) + "px";
+
+        heart.style.animationDuration =
+            (5 + Math.random() * 5) + "s";
+
+        document.body.appendChild(heart);
+
+
+        setTimeout(() => {
+
+            heart.remove();
+
+        },10000);
+
+    },500);
+
+}
 
 </script>
 
