@@ -9,7 +9,7 @@
 <style>
 
 /* =========================
-   RESET
+   RESET & BASE STYLES
 ========================= */
 
 *{
@@ -110,7 +110,7 @@ body{
 
 
 /* =========================
-   MAIN
+   MAIN CONTAINER
 ========================= */
 
 #main{
@@ -130,7 +130,6 @@ body{
 
 /* =========================
    VIDEO FRAME
-   SAME SIZE AS MESSAGE
 ========================= */
 
 .video-frame{
@@ -175,17 +174,13 @@ body{
 
     display:block;
 
-    /*
-       Landscape video fills
-       the complete frame
-    */
     object-fit:cover;
-
     object-position:center;
 
+    /* Lightened filter so video details are vivid and clear */
     filter:
-        brightness(.48)
-        saturate(.9);
+        brightness(.75)
+        saturate(1.05);
 
     z-index:1;
 
@@ -193,7 +188,7 @@ body{
 }
 
 
-/* DARK OVERLAY */
+/* DARK OVERLAY (MODIFIED FOR HIGHER CLEARNESS) */
 
 .video-dark{
     position:absolute;
@@ -203,8 +198,8 @@ body{
     background:
         linear-gradient(
             180deg,
-            rgba(0,0,0,.10),
-            rgba(0,0,0,.55)
+            rgba(0,0,0,.05),
+            rgba(0,0,0,.35)
         );
 
     z-index:2;
@@ -215,7 +210,7 @@ body{
 
 /* =========================
    MESSAGE CARD
-   EXACT SAME SIZE
+   (BLUR REDUCED FOR CLEAR VIDEO VISIBILITY)
 ========================= */
 
 .card{
@@ -232,20 +227,22 @@ body{
 
     text-align:center;
 
-    background:rgba(13,7,12,.70);
+    /* Lighter background for transparency */
+    background:rgba(13,7,12,.38);
 
     border:
         1px solid
-        rgba(255,215,230,.5);
+        rgba(255,215,230,.4);
 
     border-radius:32px;
 
-    backdrop-filter:blur(10px);
-    -webkit-backdrop-filter:blur(10px);
+    /* Blur reduced to 2px so video stays crisp */
+    backdrop-filter:blur(2px);
+    -webkit-backdrop-filter:blur(2px);
 
     box-shadow:
-        0 25px 90px rgba(0,0,0,.72),
-        inset 0 0 35px rgba(255,180,205,.05);
+        0 25px 90px rgba(0,0,0,.6),
+        inset 0 0 35px rgba(255,180,205,.08);
 
     z-index:5;
 
@@ -291,7 +288,7 @@ body{
 
 
 /* =========================
-   TITLE
+   TITLE & SUBTITLE
 ========================= */
 
 h1{
@@ -302,7 +299,8 @@ h1{
     color:#ffe6ef;
 
     text-shadow:
-        0 0 20px rgba(255,150,190,.4);
+        0 0 15px rgba(0,0,0,.8),
+        0 0 25px rgba(255,150,190,.6);
 }
 
 .subtitle{
@@ -313,6 +311,8 @@ h1{
     margin-bottom:30px;
 
     letter-spacing:1px;
+
+    text-shadow:0 0 10px rgba(0,0,0,.8);
 }
 
 
@@ -328,6 +328,8 @@ h1{
     color:#f5dfe7;
 
     text-align:left;
+
+    text-shadow:0 1px 6px rgba(0,0,0,.85);
 }
 
 .message p{
@@ -349,6 +351,8 @@ h1{
     font-size:19px;
 
     font-style:italic;
+
+    text-shadow:0 1px 8px rgba(0,0,0,.85);
 }
 
 
@@ -450,7 +454,6 @@ h1{
 
 <body>
 
-
 <!-- =========================
      INTRO
 ========================= -->
@@ -474,7 +477,6 @@ h1{
     </div>
 
 </section>
-
 
 
 <!-- =========================
@@ -521,7 +523,8 @@ h1{
         <img
             class="photo"
             src="1000101121.jpg"
-            alt="Douaa">
+            alt="Douaa"
+            onerror="this.src='https://placehold.co/170x170/35121f/ffe5ef?text=Douaa'">
 
 
 
@@ -599,7 +602,6 @@ h1{
 </main>
 
 
-
 <script>
 
 /* =========================
@@ -630,7 +632,7 @@ let timeLeft = 10;
 
 
 /* =========================
-   START BUTTON
+   START BUTTON EVENT
 ========================= */
 
 startBtn.addEventListener("click", () => {
@@ -685,8 +687,8 @@ startBtn.addEventListener("click", () => {
             bgVideo.play().catch(() => {
 
                 /*
-                   If browser blocks audio,
-                   video continues muted.
+                   If browser blocks audio autoplay,
+                   video continues muted smoothly.
                 */
 
                 bgVideo.muted = true;
@@ -696,20 +698,20 @@ startBtn.addEventListener("click", () => {
             });
 
 
-            /* Start hearts */
+            /* Start falling hearts effect */
 
             startHearts();
 
         }
 
-    },1000);
+    }, 1000);
 
 });
 
 
 
 /* =========================
-   FALLING HEARTS
+   FALLING HEARTS FUNCTION
 ========================= */
 
 function startHearts(){
@@ -740,9 +742,9 @@ function startHearts(){
 
             heart.remove();
 
-        },10000);
+        }, 10000);
 
-    },500);
+    }, 500);
 
 }
 
