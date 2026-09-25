@@ -3,198 +3,609 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Malek ❤️</title>
+
+<title>For Douaa 🤍</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel:wght@400;600;700&family=Poppins:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap');
 
-*{ margin:0; padding:0; box-sizing:border-box; }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
 
 body{
-    height:100vh;
+    position:relative;
     display:flex;
-    justify-content:center;
     align-items:center;
-    overflow:hidden;
-    background: radial-gradient(circle, #2a000a 0%, #0d0005 50%, #050505 100%);
-    position: relative;
-    font-family: 'Poppins', sans-serif;
+    justify-content:center;
+    font-family:'Poppins',sans-serif;
+    background:#080507;
+    color:white;
 }
 
-/* Falling Goth Petals */
-.petal { 
-    position: absolute; 
-    width: 12px; 
-    height: 18px; 
-    background: linear-gradient(135deg, #800020, #3a000d); 
-    border-radius: 15px 0px 15px 0px; 
-    opacity: 0.7; 
-    animation: fall linear infinite; 
-    box-shadow: 0 0 5px rgba(128, 0, 32, 0.5);
-}
-@keyframes fall { 
-    0% { transform: translateY(-10vh) rotate(0deg); }
-    100% { transform: translateY(110vh) rotate(360deg); } 
+/* ================= VIDEO BACKGROUND ================= */
+
+#bgVideo{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:0;
+
+    filter:
+        blur(3px)
+        brightness(.48)
+        saturate(.9);
+
+    transform:scale(1.04);
 }
 
-.intro-container { text-align: center; z-index: 10; }
+.video-overlay{
+    position:fixed;
+    inset:0;
+    z-index:1;
 
-.start-btn {
-    padding: 18px 45px;
-    font-size: 1.5rem;
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: #e0e0e0;
-    background: linear-gradient(135deg, #4a0011, #120005);
-    border: 1px solid #800020;
-    border-radius: 50px;
-    cursor: pointer;
-    box-shadow: 0 0 20px rgba(128, 0, 32, 0.6), inset 0 0 10px rgba(0,0,0,0.8);
-    transition: all 0.4s ease;
-}
-.start-btn:hover { 
-    transform: scale(1.05); 
-    color: #fff;
-    box-shadow: 0 0 35px rgba(186, 12, 47, 0.9), inset 0 0 15px rgba(128, 0, 32, 0.5);
-    border-color: #ba0c2f;
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(35,8,20,.18),
+            rgba(3,2,5,.70)
+        ),
+        linear-gradient(
+            180deg,
+            rgba(0,0,0,.28),
+            rgba(0,0,0,.60)
+        );
 }
 
-.countdown { 
-    font-family: 'Cinzel', serif;
-    font-size: 6rem; 
-    font-weight: 700; 
-    color: #ba0c2f; 
-    display: none; 
-    text-shadow: 0 0 20px rgba(186, 12, 47, 0.8), 0 0 5px #000; 
+/* ================= LIGHT EFFECTS ================= */
+
+.glow{
+    position:fixed;
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    filter:blur(70px);
+    opacity:.18;
+    z-index:2;
+    pointer-events:none;
+    background:#e89ab5;
 }
+
+.glow.one{
+    top:-80px;
+    left:-70px;
+}
+
+.glow.two{
+    bottom:-100px;
+    right:-70px;
+}
+
+/* ================= INTRO ================= */
+
+.intro{
+    position:relative;
+    z-index:5;
+    text-align:center;
+}
+
+.start-btn{
+    padding:17px 38px;
+
+    border:1px solid rgba(255,210,225,.55);
+    border-radius:50px;
+
+    background:rgba(30,8,20,.62);
+
+    color:#fff;
+
+    font-family:'Cinzel',serif;
+    font-size:1.05rem;
+
+    letter-spacing:1.5px;
+
+    cursor:pointer;
+
+    backdrop-filter:blur(12px);
+
+    box-shadow:
+        0 0 35px rgba(235,130,165,.25),
+        inset 0 0 18px rgba(255,255,255,.05);
+
+    transition:.35s ease;
+}
+
+.start-btn:hover{
+    transform:scale(1.05);
+
+    box-shadow:
+        0 0 50px rgba(235,130,165,.42),
+        inset 0 0 20px rgba(255,255,255,.08);
+}
+
+/* ================= COUNTDOWN ================= */
+
+.countdown{
+    display:none;
+
+    margin-top:18px;
+
+    font-family:'Cinzel',serif;
+
+    font-size:4.5rem;
+
+    color:#fff;
+
+    text-shadow:
+        0 0 25px rgba(255,180,205,.65);
+}
+
+/* ================= CARD ================= */
 
 .card{
-    position: relative;
-    width:92%;
-    max-width:700px;
-    background: rgba(10, 10, 12, 0.75);
-    backdrop-filter: blur(18px);
-    border: 1px solid rgba(186, 12, 47, 0.4);
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.9), inset 0 0 15px rgba(128, 0, 32, 0.3);
-    border-radius: 30px;
-    padding: 40px;
-    text-align: center;
-    color: #e0e0e0;
-    display: none;
-    max-height: 85vh;
-    overflow-y: auto;
-    z-index: 5;
-    animation: showCard 2s forwards;
+    position:relative;
+    z-index:5;
+
+    width:min(92vw,980px);
+
+    max-height:90vh;
+
+    padding:34px 46px 38px;
+
+    display:none;
+
+    overflow:auto;
+
+    text-align:center;
+
+    background:rgba(12,7,12,.43);
+
+    border:
+        1px solid
+        rgba(255,210,225,.42);
+
+    border-radius:34px;
+
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+
+    box-shadow:
+        0 20px 80px rgba(0,0,0,.65),
+        inset 0 0 35px rgba(255,180,205,.07);
+
+    animation:cardIn 1.5s ease forwards;
 }
 
-@keyframes showCard{ from{ opacity:0; transform: translateY(50px) scale(0.95); } to{ opacity:1; transform: translateY(0) scale(1); } }
+@keyframes cardIn{
 
-h1{ 
-    font-family: 'UnifrakturMaguntia', cursive; 
-    font-size: 3.5rem; 
-    margin-bottom: 10px; 
-    color: #ba0c2f; 
-    text-shadow: 0 0 15px rgba(186, 12, 47, 0.6);
-    letter-spacing: 2px;
-}
+    from{
+        opacity:0;
+        transform:
+            translateY(35px)
+            scale(.96);
+    }
 
-.birthday-photo { 
-    width: 150px; 
-    height: 150px; 
-    object-fit: cover; 
-    border-radius: 50%; 
-    border: 3px solid #ba0c2f; 
-    box-shadow: 0 0 20px rgba(186, 12, 47, 0.6);
-    margin-bottom: 20px; 
-    filter: contrast(1.05) brightness(0.95);
-}
-
-.message-box p { 
-    font-size: 1.05rem; 
-    line-height: 1.9; 
-    margin-bottom: 20px; 
-    color: #d1d1d1;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-}
-
-.signature { 
-    font-family: 'Cinzel', serif; 
-    font-style: italic; 
-    font-size: 1.4rem; 
-    color: #ba0c2f; 
-    display: block; 
-    letter-spacing: 1px;
-    text-shadow: 0 0 10px rgba(186, 12, 47, 0.4);
-}
-
-/* Custom Scrollbar */
-.card::-webkit-scrollbar { width: 6px; }
-.card::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.5); }
-.card::-webkit-scrollbar-thumb { background: #500014; border-radius: 10px; }
-</style>
-</head>
-<body>
-
-<audio id="audioPiano" loop preload="auto">
-    <source src="Happy Birthday (Piano Version).mp3" type="audio/mpeg">
-</audio>
-
-<div class="intro-container" id="introBox">
-    <button class="start-btn" id="startBtn">Unveil Your Gift 🖤</button>
-    <div class="countdown" id="chrono">00:10</div>
-</div>
-
-<div class="card" id="birthdayCard">
-    <h1> Happy Belated Birthday Malek 🥀</h1>
-    <img src="Capture d'écran 2026-08-06 045751.png" alt="Malek" class="birthday-photo">
-    
-    <div class="message-box">
-        <p>
-            Happy Belated Birthday, Malek! 🎂✨ Even though June 2nd has passed and we only met recently, I couldn't skip wishing you an amazing new year of life. Honestly, getting to know you has been such a wonderful surprise—you have this genuinely awesome energy and talking to you is always so natural and comfortable. I truly appreciate how kind and authentic you are. I hope this new chapter brings you endless happiness, beautiful success, and all the peace and smile-worthy moments you deserve. May it be a year full of great memories and good vibes!
-        </p>
-        <span class="signature">Best wishes to you 🖤🥀</span>
-    </div>
-</div>
-
-<script>
-function createPetals() {
-    for(let i=0; i<40; i++) {
-        let p = document.createElement('div');
-        p.className = 'petal';
-        p.style.left = Math.random()*100 + 'vw';
-        p.style.animationDuration = (Math.random()*4+3) + 's';
-        p.style.animationDelay = Math.random()*2 + 's';
-        document.body.appendChild(p);
+    to{
+        opacity:1;
+        transform:
+            translateY(0)
+            scale(1);
     }
 }
 
-const startBtn = document.getElementById('startBtn');
-const chrono = document.getElementById('chrono');
-const introBox = document.getElementById('introBox');
-const birthdayCard = document.getElementById('birthdayCard');
-const audioPiano = document.getElementById('audioPiano');
+/* ================= PHOTO ================= */
+
+.photo-wrap{
+    position:relative;
+    display:inline-block;
+    margin-bottom:18px;
+}
+
+.birthday-photo{
+    width:180px;
+    height:180px;
+
+    object-fit:cover;
+    object-position:center;
+
+    border-radius:50%;
+
+    border:
+        3px solid
+        rgba(255,225,235,.82);
+
+    box-shadow:
+        0 0 25px rgba(244,150,180,.42),
+        0 0 70px rgba(244,150,180,.16);
+}
+
+/* ================= TITLE ================= */
+
+h1{
+    margin-bottom:16px;
+
+    font-family:'Cinzel',serif;
+
+    font-size:
+        clamp(2rem,5vw,3.7rem);
+
+    font-weight:600;
+
+    color:#fff4f7;
+
+    text-shadow:
+        0 0 22px
+        rgba(255,170,200,.42);
+
+    letter-spacing:1px;
+}
+
+/* ================= SUBTITLE ================= */
+
+.subtitle{
+    margin-bottom:22px;
+
+    color:#f0c8d5;
+
+    font-size:1rem;
+
+    letter-spacing:1px;
+}
+
+/* ================= MESSAGE ================= */
+
+.message-box{
+    max-width:820px;
+    margin:0 auto;
+}
+
+.message-box p{
+    margin-bottom:17px;
+
+    color:#f8edf1;
+
+    font-size:
+        clamp(1rem,2vw,1.14rem);
+
+    line-height:1.9;
+
+    text-shadow:
+        0 2px 8px rgba(0,0,0,.75);
+}
+
+/* ================= SIGNATURE ================= */
+
+.signature{
+    display:block;
+
+    margin-top:25px;
+
+    color:#ffd7e3;
+
+    font-family:'Cinzel',serif;
+
+    font-size:1.2rem;
+
+    letter-spacing:1px;
+
+    text-shadow:
+        0 0 15px
+        rgba(255,170,200,.45);
+}
+
+/* ================= SCROLLBAR ================= */
+
+.card::-webkit-scrollbar{
+    width:5px;
+}
+
+.card::-webkit-scrollbar-thumb{
+    background:
+        rgba(255,190,210,.35);
+
+    border-radius:20px;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:600px){
+
+    .card{
+        width:94vw;
+
+        padding:
+            26px
+            20px
+            30px;
+
+        border-radius:26px;
+    }
+
+    .birthday-photo{
+        width:145px;
+        height:145px;
+    }
+
+    .message-box p{
+        line-height:1.75;
+        font-size:.98rem;
+    }
+
+    .countdown{
+        font-size:3.7rem;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ==================================================
+     YOUR VIDEO
+     EXACT ORIGINAL FILE NAME
+================================================== -->
+
+<video
+    id="bgVideo"
+    playsinline
+    loop
+    preload="auto">
+
+    <source
+        src="douaahouidheg_3308418329708534230.mp4"
+        type="video/mp4">
+
+</video>
+
+
+<div class="video-overlay"></div>
+
+<div class="glow one"></div>
+<div class="glow two"></div>
+
+
+<!-- ==================================================
+     INTRO
+================================================== -->
+
+<div
+    class="intro"
+    id="introBox">
+
+    <button
+        class="start-btn"
+        id="startBtn">
+
+        Open Something For You 🤍
+
+    </button>
+
+
+    <div
+        class="countdown"
+        id="chrono">
+
+        00:10
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     BIRTHDAY CARD
+================================================== -->
+
+<div
+    class="card"
+    id="birthdayCard">
+
+
+    <!-- YOUR ORIGINAL PHOTO -->
+
+    <div class="photo-wrap">
+
+        <img
+            src="1000101121.jpg"
+            alt="Douaa"
+            class="birthday-photo">
+
+    </div>
+
+
+    <h1>
+        Happy Birthday, Douaa 🤍
+    </h1>
+
+
+    <div class="subtitle">
+
+        A little late, but from the heart.
+
+    </div>
+
+
+    <div class="message-box">
+
+
+        <p>
+
+            Happy birthday to a girl who has become
+            really special to me. 🤍
+            I know this message is late, but some
+            feelings deserve more than a simple
+            “happy birthday” sent in a hurry.
+
+        </p>
+
+
+        <p>
+
+            Your birthday was supposed to be the day
+            we finally met, and honestly, I was really
+            looking forward to that moment.
+            It didn't happen the way we planned,
+            but that doesn't change how happy I am
+            that I got to know you.
+
+        </p>
+
+
+        <p>
+
+            I don't know exactly what the future has
+            planned for us, but I know that having you
+            in my life means something to me.
+            I love the way you are, the little things
+            about you, your energy, and the way you
+            can make a normal moment feel special
+            without even trying.
+
+        </p>
+
+
+        <p>
+
+            So even if this wish comes a little late,
+            I hope this new year of your life brings
+            you beautiful moments, genuine happiness,
+            peaceful days, and everything your heart
+            is hoping for.
+
+            And maybe, one day soon, we will finally
+            get that meeting we were supposed to have. 🤍
+
+        </p>
+
+
+        <span class="signature">
+
+            Happy birthday, Douaa.
+            You deserve beautiful things. 🥀
+
+        </span>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ==================================================
+   ELEMENTS
+================================================== */
+
+const startBtn =
+    document.getElementById('startBtn');
+
+const chrono =
+    document.getElementById('chrono');
+
+const introBox =
+    document.getElementById('introBox');
+
+const birthdayCard =
+    document.getElementById('birthdayCard');
+
+const bgVideo =
+    document.getElementById('bgVideo');
+
+
+/* ==================================================
+   COUNTDOWN
+================================================== */
+
 let timeLeft = 10;
 
+
+/* ==================================================
+   BUTTON
+================================================== */
+
 startBtn.addEventListener('click', () => {
+
+
+    /* Hide button */
+
     startBtn.style.display = 'none';
+
+
+    /* Show countdown */
+
     chrono.style.display = 'block';
-    
-    createPetals();
+
+
+    /* Start video */
+
+    bgVideo.muted = false;
+
+    bgVideo.play().catch(() => {
+
+        /*
+        If browser blocks video audio,
+        play muted instead.
+        */
+
+        bgVideo.muted = true;
+
+        bgVideo.play().catch(() => {});
+
+    });
+
+
+    /* ==================================================
+       IMPORTANT:
+       COUNTDOWN IS INDEPENDENT FROM VIDEO
+    ================================================== */
 
     const timer = setInterval(() => {
+
+
         timeLeft--;
-        chrono.innerText = `00:${timeLeft < 10 ? '0' + timeLeft : timeLeft}`;
-        if (timeLeft <= 0) {
+
+
+        chrono.innerText =
+            `00:${timeLeft < 10
+                ? '0' + timeLeft
+                : timeLeft}`;
+
+
+        /* When countdown reaches 00:00 */
+
+        if(timeLeft <= 0){
+
             clearInterval(timer);
-            
-            audioPiano.play();
-            
+
+
+            /* Hide intro */
+
             introBox.style.display = 'none';
+
+
+            /* Show birthday message */
+
             birthdayCard.style.display = 'block';
+
         }
-    }, 1000);
+
+
+    },1000);
+
 });
+
 </script>
+
 </body>
 </html>
