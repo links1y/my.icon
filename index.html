@@ -450,6 +450,23 @@ h1{
 
 }
 
+/* Small note text shown only if sound is still blocked */
+.sound-hint{
+    position:fixed;
+    bottom:16px;
+    left:50%;
+    transform:translateX(-50%);
+    background:rgba(0,0,0,.55);
+    padding:8px 16px;
+    border-radius:20px;
+    font-size:12px;
+    letter-spacing:1px;
+    color:#ffe6ef;
+    z-index:30;
+    cursor:pointer;
+    display:none;
+}
+
 </style>
 </head>
 
@@ -603,6 +620,7 @@ h1{
 
 </main>
 
+<div class="sound-hint" id="soundHint">🔊 Tap here to enable sound</div>
 
 <script>
 
@@ -625,6 +643,9 @@ const main =
 const bgVideo =
     document.getElementById("bgVideo");
 
+const soundHint =
+    document.getElementById("soundHint");
+
 
 /* =========================
    COUNTDOWN
@@ -644,6 +665,32 @@ startBtn.addEventListener("click", () => {
     chrono.style.display = "block";
 
     chrono.innerText = "00:10";
+
+    /* =====================
+       AUDIO UNLOCK TRICK
+       ---------------------
+       Browsers only allow sound to start playing
+       INSIDE a direct user click. Since our real
+       video starts later (inside setInterval), the
+       browser blocks the sound there.
+       So here, right inside the click, we quickly
+       play + immediately pause the video once.
+       This "unlocks" audio permission for this
+       video element, so when we play it again later
+       (after the countdown), the sound works.
+    ===================== */
+
+    bgVideo.muted = false;
+
+    bgVideo.play()
+        .then(() => {
+            bgVideo.pause();
+            bgVideo.currentTime = 0;
+        })
+        .catch(() => {
+            /* If even this is blocked, we'll show a
+               manual "tap to unmute" hint later */
+        });
 
 
     const timer = setInterval(() => {
@@ -676,7 +723,7 @@ startBtn.addEventListener("click", () => {
             main.style.display = "flex";
 
 
-            /* Start video */
+            /* Start video WITH sound */
 
             bgVideo.currentTime = 0;
 
@@ -684,11 +731,15 @@ startBtn.addEventListener("click", () => {
 
             bgVideo.play().catch(() => {
 
-                /* Fallback if browser blocks audio autoplay */
+                /* Fallback if browser still blocks audio:
+                   play muted and show a hint so the user
+                   can tap once to enable sound manually */
 
                 bgVideo.muted = true;
 
                 bgVideo.play().catch(() => {});
+
+                soundHint.style.display = "block";
 
             });
 
@@ -700,6 +751,20 @@ startBtn.addEventListener("click", () => {
         }
 
     }, 1000);
+
+});
+
+
+/* Manual sound re-enable, in case autoplay
+   with sound was still blocked by the browser */
+
+soundHint.addEventListener("click", () => {
+
+    bgVideo.muted = false;
+
+    bgVideo.play().then(() => {
+        soundHint.style.display = "none";
+    }).catch(() => {});
 
 });
 
