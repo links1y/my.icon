@@ -160,7 +160,7 @@ body{
 
 
 /* =========================
-   LANDSCAPE VIDEO
+   LANDSCAPE VIDEO - NO BLUR & CRYSTAL CLEAR
 ========================= */
 
 #bgVideo{
@@ -177,10 +177,10 @@ body{
     object-fit:cover;
     object-position:center;
 
-    /* Lightened filter so video details are vivid and clear */
+    /* Brightness and saturation optimized without any blur filter */
     filter:
-        brightness(.75)
-        saturate(1.05);
+        brightness(.88)
+        saturate(1.1);
 
     z-index:1;
 
@@ -188,7 +188,7 @@ body{
 }
 
 
-/* DARK OVERLAY (MODIFIED FOR HIGHER CLEARNESS) */
+/* MINIMAL DARK OVERLAY FOR MAXIMUM VIDEO VISIBILITY */
 
 .video-dark{
     position:absolute;
@@ -198,8 +198,8 @@ body{
     background:
         linear-gradient(
             180deg,
-            rgba(0,0,0,.05),
-            rgba(0,0,0,.35)
+            rgba(0,0,0,.02),
+            rgba(0,0,0,.25)
         );
 
     z-index:2;
@@ -210,7 +210,7 @@ body{
 
 /* =========================
    MESSAGE CARD
-   (BLUR REDUCED FOR CLEAR VIDEO VISIBILITY)
+   BLUR REMOVED ENTIRELY (0px)
 ========================= */
 
 .card{
@@ -227,8 +227,8 @@ body{
 
     text-align:center;
 
-    /* Lighter background for transparency */
-    background:rgba(13,7,12,.38);
+    /* Transparent background so the video shines clearly through */
+    background:rgba(10,5,10,.25);
 
     border:
         1px solid
@@ -236,13 +236,13 @@ body{
 
     border-radius:32px;
 
-    /* Blur reduced to 2px so video stays crisp */
-    backdrop-filter:blur(2px);
-    -webkit-backdrop-filter:blur(2px);
+    /* BLUR FULLY REMOVED */
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
 
     box-shadow:
-        0 25px 90px rgba(0,0,0,.6),
-        inset 0 0 35px rgba(255,180,205,.08);
+        0 25px 90px rgba(0,0,0,.5),
+        inset 0 0 35px rgba(255,180,205,.05);
 
     z-index:5;
 
@@ -278,10 +278,10 @@ body{
 
     border:
         3px solid
-        rgba(255,220,235,.75);
+        rgba(255,220,235,.85);
 
     box-shadow:
-        0 0 35px rgba(255,140,190,.35);
+        0 0 35px rgba(255,140,190,.4);
 
     display:block;
 }
@@ -299,8 +299,8 @@ h1{
     color:#ffe6ef;
 
     text-shadow:
-        0 0 15px rgba(0,0,0,.8),
-        0 0 25px rgba(255,150,190,.6);
+        0 2px 10px rgba(0,0,0,.95),
+        0 0 25px rgba(255,150,190,.7);
 }
 
 .subtitle{
@@ -312,12 +312,12 @@ h1{
 
     letter-spacing:1px;
 
-    text-shadow:0 0 10px rgba(0,0,0,.8);
+    text-shadow:0 2px 8px rgba(0,0,0,.95);
 }
 
 
 /* =========================
-   MESSAGE
+   MESSAGE TEXT
 ========================= */
 
 .message{
@@ -329,7 +329,9 @@ h1{
 
     text-align:left;
 
-    text-shadow:0 1px 6px rgba(0,0,0,.85);
+    text-shadow:
+        0 1px 8px rgba(0,0,0,.95),
+        0 0 2px rgba(0,0,0,1);
 }
 
 .message p{
@@ -352,7 +354,7 @@ h1{
 
     font-style:italic;
 
-    text-shadow:0 1px 8px rgba(0,0,0,.85);
+    text-shadow:0 2px 10px rgba(0,0,0,.95);
 }
 
 
@@ -674,11 +676,7 @@ startBtn.addEventListener("click", () => {
             main.style.display = "flex";
 
 
-            /*
-               Start video ONLY NOW.
-               It will keep playing because
-               loop=true.
-            */
+            /* Start video */
 
             bgVideo.currentTime = 0;
 
@@ -686,10 +684,7 @@ startBtn.addEventListener("click", () => {
 
             bgVideo.play().catch(() => {
 
-                /*
-                   If browser blocks audio autoplay,
-                   video continues muted smoothly.
-                */
+                /* Fallback if browser blocks audio autoplay */
 
                 bgVideo.muted = true;
 
