@@ -1,886 +1,723 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050608" />
+  <title>Pull the Cord</title>
 
-<title>Happy Birthday Douaa 🤍</title>
+  <style>
+    :root {
+      --bg: #050608;
+      --warm: #ffd77a;
+      --pink: #ff4770;
+      --text: #f8f8f8;
+      --muted: rgba(255, 255, 255, 0.58);
+    }
 
-<style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-/* =========================
-   RESET & BASE STYLES
-========================= */
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+    body {
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      user-select: none;
+      touch-action: none;
+      transition: background 1.2s ease;
+    }
 
-html,
-body{
-    width:100%;
-    height:100%;
-}
-
-body{
-    overflow:hidden;
-    background:#050305;
-    color:#fff;
-    font-family:Georgia, "Times New Roman", serif;
-}
-
-
-/* =========================
-   INTRO SCREEN
-========================= */
-
-#intro{
-    position:fixed;
-    inset:0;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    background:
+    body.lit {
+      background:
         radial-gradient(
-            circle at center,
-            #35121f 0%,
-            #12070d 45%,
-            #050305 100%
-        );
-
-    z-index:100;
-}
-
-.intro-box{
-    text-align:center;
-    padding:35px;
-}
-
-.intro-title{
-    font-size:clamp(28px,5vw,55px);
-    letter-spacing:3px;
-    margin-bottom:30px;
-
-    color:#ffe5ef;
-
-    text-shadow:
-        0 0 20px rgba(255,150,190,.45);
-}
-
-#startBtn{
-    padding:15px 35px;
-
-    border:1px solid rgba(255,210,225,.7);
-    border-radius:50px;
-
-    background:rgba(255,255,255,.08);
-
-    color:white;
-
-    font-size:16px;
-    letter-spacing:2px;
-
-    cursor:pointer;
-
-    transition:.3s;
-}
-
-#startBtn:hover{
-    background:rgba(255,180,210,.18);
-    transform:scale(1.05);
-}
-
-#chrono{
-    display:none;
-
-    align-items:center;
-    justify-content:center;
-
-    width:150px;
-    height:150px;
-
-    margin:0 auto;
-
-    border-radius:50%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(255,255,255,.05),
-            rgba(0,0,0,.2)
-        );
-
-    border:2px solid rgba(255,210,225,.55);
-
-    box-shadow:
-        0 0 0 6px rgba(255,180,210,.08),
-        0 0 35px rgba(255,130,180,.35),
-        inset 0 0 25px rgba(255,150,190,.15);
-
-    font-family:"Courier New", monospace;
-    font-weight:700;
-
-    font-size:34px;
-    letter-spacing:2px;
-
-    color:#ffe9f1;
-
-    text-shadow:
-        0 0 18px rgba(255,150,190,.75);
-
-    animation:chronoPulse 1s ease-in-out infinite;
-}
-
-@keyframes chronoPulse{
-    0%,100%{ transform:scale(1); }
-    50%{ transform:scale(1.035); }
-}
-
-
-/* =========================
-   MAIN CONTAINER
-========================= */
-
-#main{
-    position:relative;
-
-    width:100%;
-    height:100vh;
-
-    display:none;
-
-    align-items:center;
-    justify-content:center;
-
-    overflow:hidden;
-}
-
-
-/* =========================
-   VIDEO FRAME
-========================= */
-
-.video-frame{
-    position:absolute;
-
-    width:min(760px,91vw);
-    height:87vh;
-
-    left:50%;
-    top:50%;
-
-    transform:translate(-50%,-50%);
-
-    border-radius:32px;
-
-    overflow:hidden;
-
-    background:#090609;
-
-    border:1px solid rgba(255,215,230,.35);
-
-    box-shadow:
-        0 25px 90px rgba(0,0,0,.75),
-        0 0 50px rgba(225,105,150,.18);
-
-    z-index:1;
-}
-
-
-/* =========================
-   LANDSCAPE VIDEO - NO BLUR & CRYSTAL CLEAR
-========================= */
-
-#bgVideo{
-    position:absolute;
-
-    width:100%;
-    height:100%;
-
-    left:0;
-    top:0;
-
-    display:block;
-
-    object-fit:cover;
-    object-position:center;
-
-    /* Brightness and saturation optimized without any blur filter */
-    filter:
-        brightness(.88)
-        saturate(1.1);
-
-    z-index:1;
-
-    pointer-events:none;
-}
-
-
-/* MINIMAL DARK OVERLAY FOR MAXIMUM VIDEO VISIBILITY */
-
-.video-dark{
-    position:absolute;
-
-    inset:0;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(0,0,0,.02),
-            rgba(0,0,0,.25)
-        );
-
-    z-index:2;
-
-    pointer-events:none;
-}
-
-
-/* =========================
-   MESSAGE CARD
-   BLUR REMOVED ENTIRELY (0px)
-========================= */
-
-.card{
-    position:relative;
-
-    width:min(760px,91vw);
-
-    height:87vh;
-    max-height:87vh;
-
-    overflow-y:auto;
-
-    padding:35px 45px 40px;
-
-    text-align:center;
-
-    /* Transparent background so the video shines clearly through */
-    background:rgba(10,5,10,.25);
-
-    border:
-        1px solid
-        rgba(255,215,230,.4);
-
-    border-radius:32px;
-
-    /* BLUR FULLY REMOVED */
-    backdrop-filter:none;
-    -webkit-backdrop-filter:none;
-
-    box-shadow:
-        0 25px 90px rgba(0,0,0,.5),
-        inset 0 0 35px rgba(255,180,205,.05);
-
-    z-index:5;
-
-    animation:cardIn 1.4s ease;
-}
-
-
-/* CARD SCROLLBAR */
-
-.card::-webkit-scrollbar{
-    width:5px;
-}
-
-.card::-webkit-scrollbar-thumb{
-    background:rgba(255,200,220,.35);
-    border-radius:10px;
-}
-
-
-/* =========================
-   PHOTO
-========================= */
-
-.photo{
-    width:170px;
-    height:170px;
-
-    margin:0 auto 22px;
-
-    border-radius:50%;
-
-    object-fit:cover;
-
-    border:
-        3px solid
-        rgba(255,220,235,.85);
-
-    box-shadow:
-        0 0 35px rgba(255,140,190,.4);
-
-    display:block;
-}
-
-
-/* =========================
-   TITLE & SUBTITLE
-========================= */
-
-h1{
-    font-size:clamp(28px,5vw,48px);
-
-    margin-bottom:10px;
-
-    color:#ffe6ef;
-
-    text-shadow:
-        0 2px 10px rgba(0,0,0,.95),
-        0 0 25px rgba(255,150,190,.7);
-}
-
-.subtitle{
-    color:#eab8c9;
-
-    font-size:15px;
-
-    margin-bottom:30px;
-
-    letter-spacing:1px;
-
-    text-shadow:0 2px 8px rgba(0,0,0,.95);
-}
-
-
-/* =========================
-   MESSAGE TEXT
-========================= */
-
-.message{
-    font-size:17px;
-
-    line-height:1.9;
-
-    color:#f5dfe7;
-
-    text-align:left;
-
-    text-shadow:
-        0 1px 8px rgba(0,0,0,.95),
-        0 0 2px rgba(0,0,0,1);
-}
-
-.message p{
-    margin-bottom:20px;
-}
-
-
-/* =========================
-   SIGNATURE
-========================= */
-
-.signature{
-    margin-top:32px;
-
-    text-align:center;
-
-    font-family:"Brush Script MT","Segoe Script",cursive;
-
-    font-size:30px;
-    font-weight:700;
-
-    letter-spacing:1px;
-    line-height:1.5;
-
-    background:linear-gradient(
-        90deg,
-        #ffd2e2,
-        #ffe9f1,
-        #ff9fc0,
-        #ffd2e2
-    );
-
-    background-size:200% auto;
-
-    -webkit-background-clip:text;
-    background-clip:text;
-    -webkit-text-fill-color:transparent;
-
-    filter:
-        drop-shadow(0 2px 10px rgba(0,0,0,.85))
-        drop-shadow(0 0 18px rgba(255,140,190,.55));
-
-    animation:shineText 4s linear infinite;
-}
-
-@keyframes shineText{
-    0%{ background-position:0% center; }
-    100%{ background-position:200% center; }
-}
-
-.signature::before,
-.signature::after{
-    content:"❀";
-    display:block;
-    font-size:14px;
-    color:#ffb8d1;
-    margin:6px 0;
-    opacity:.8;
-}
-
-
-/* =========================
-   CARD ANIMATION
-========================= */
-
-@keyframes cardIn{
-
-    from{
-        opacity:0;
-        transform:scale(.94) translateY(20px);
+          circle at 50% 25%,
+          rgba(255, 206, 112, 0.15),
+          transparent 27%
+        ),
+        linear-gradient(180deg, #17120d 0%, #08090d 72%);
     }
 
-    to{
-        opacity:1;
-        transform:scale(1) translateY(0);
+    .scene {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      isolation: isolate;
     }
 
-}
+    /* Ambient light */
 
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:600px){
-
-    .video-frame{
-        width:91vw;
-        height:82vh;
-
-        border-radius:26px;
+    .light-cone {
+      position: absolute;
+      top: 70px;
+      left: 50%;
+      width: min(850px, 150vw);
+      height: min(760px, 115vh);
+      transform: translateX(-50%);
+      background: radial-gradient(
+        ellipse at 50% 10%,
+        rgba(255, 215, 122, 0.27) 0%,
+        rgba(255, 190, 75, 0.12) 25%,
+        transparent 67%
+      );
+      filter: blur(14px);
+      opacity: 0;
+      transition: opacity 1s ease;
+      z-index: -2;
+      pointer-events: none;
     }
 
-    .card{
-        width:91vw;
-
-        height:82vh;
-        max-height:82vh;
-
-        padding:25px 18px 30px;
-
-        border-radius:26px;
+    body.lit .light-cone {
+      opacity: 1;
     }
 
-    .photo{
-        width:125px;
-        height:125px;
+    /* Lamp */
+
+    .lamp {
+      position: absolute;
+      top: 4vh;
+      left: 50%;
+      width: 220px;
+      height: 245px;
+      transform: translateX(-50%);
+      z-index: 10;
     }
 
-    .message{
-        font-size:15px;
-        line-height:1.8;
+    .ceiling-mount {
+      width: 34px;
+      height: 9px;
+      margin: 0 auto;
+      border-radius: 8px;
+      background: #292a2e;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.7);
     }
 
-    h1{
-        font-size:30px;
+    .main-wire {
+      width: 4px;
+      height: 65px;
+      margin: 0 auto;
+      border-radius: 5px;
+      background: linear-gradient(90deg, #555, #aaa, #555);
     }
 
-}
+    .shade {
+      position: relative;
+      width: 172px;
+      height: 82px;
+      margin: 0 auto;
+      background: linear-gradient(180deg, #303136, #111216);
+      clip-path: polygon(16% 0, 84% 0, 100% 100%, 0 100%);
+      filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.55));
+      transition:
+        background 0.7s ease,
+        filter 0.7s ease;
+    }
 
+    body.lit .shade {
+      background: linear-gradient(180deg, #fff0c5, #d8c59c);
+      filter:
+        drop-shadow(0 0 28px rgba(255, 214, 115, 0.4))
+        drop-shadow(0 12px 18px rgba(0, 0, 0, 0.4));
+    }
 
-/* =========================
-   FALLING HEARTS
-========================= */
+    .bulb {
+      position: absolute;
+      top: 112px;
+      left: 50%;
+      width: 37px;
+      height: 43px;
+      transform: translateX(-50%);
+      border-radius: 50% 50% 46% 46%;
+      background: #25262a;
+      box-shadow: inset 0 -4px 8px rgba(0, 0, 0, 0.3);
+      transition: all 0.55s ease;
+    }
 
-.heart{
-    position:fixed;
+    body.lit .bulb {
+      background: #fff6ca;
+      box-shadow:
+        0 0 14px #fff1a8,
+        0 0 36px 12px rgba(255, 207, 88, 0.8),
+        0 0 100px 36px rgba(255, 176, 44, 0.28);
+    }
 
-    top:-20px;
+    /* Pull cord */
 
-    color:#ffd5e4;
+    .cord-zone {
+      position: absolute;
+      top: 135px;
+      left: 50%;
+      width: 80px;
+      height: 145px;
+      transform: translateX(-50%);
+      cursor: grab;
+      z-index: 20;
+    }
 
-    font-size:16px;
+    .cord-zone:active {
+      cursor: grabbing;
+    }
 
-    pointer-events:none;
+    .pull-cord {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 4px;
+      height: 92px;
+      transform: translateX(-50%);
+      transform-origin: top;
+      border-radius: 5px;
+      background: linear-gradient(90deg, #777, #f0f0f0, #777);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+      transition: height 0.18s cubic-bezier(.2, .8, .2, 1);
+      pointer-events: none;
+    }
 
-    z-index:20;
+    .cord-handle {
+      position: absolute;
+      left: 50%;
+      top: 84px;
+      width: 24px;
+      height: 30px;
+      transform: translateX(-50%);
+      border-radius: 50% 50% 45% 45%;
+      background: linear-gradient(135deg, #eeeeee, #8d8d8d);
+      box-shadow:
+        inset -3px -4px 5px rgba(0, 0, 0, 0.28),
+        0 4px 8px rgba(0, 0, 0, 0.5);
+      pointer-events: none;
+      transition: top 0.18s cubic-bezier(.2, .8, .2, 1);
+    }
 
-    animation:fall linear forwards;
-}
+    .cord-zone.pulling .pull-cord,
+    .cord-zone.pulling .cord-handle {
+      transition: none;
+    }
 
-@keyframes fall{
+    /* Message */
 
-    to{
+    .message {
+      position: absolute;
+      top: 43%;
+      left: 50%;
+      width: 100%;
+      padding: 0 20px;
+      text-align: center;
+      transform: translate(-50%, 35px) scale(0.82);
+      opacity: 0;
+      pointer-events: none;
+      transition:
+        opacity 1s ease,
+        transform 1s cubic-bezier(.16, 1, .3, 1);
+    }
+
+    body.lit .message {
+      opacity: 1;
+      transform: translate(-50%, 0) scale(1);
+    }
+
+    .message h1 {
+      margin: 0;
+      font-size: clamp(42px, 11vw, 100px);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      font-weight: 800;
+      text-shadow: 0 0 24px rgba(255, 86, 117, 0.35);
+    }
+
+    .heart {
+      display: inline-block;
+      color: var(--pink);
+      animation: heartbeat 1.15s ease-in-out infinite;
+      filter: drop-shadow(0 0 12px rgba(255, 71, 112, 0.5));
+    }
+
+    .message p {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: clamp(14px, 3.5vw, 20px);
+      letter-spacing: 0.08em;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% {
+        transform: scale(1);
+      }
+
+      14% {
+        transform: scale(1.25);
+      }
+
+      28% {
+        transform: scale(1);
+      }
+
+      42% {
+        transform: scale(1.15);
+      }
+    }
+
+    /* Floating particles */
+
+    .particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      bottom: -40px;
+      color: var(--pink);
+      opacity: 0;
+      animation: rise linear forwards;
+      filter: drop-shadow(0 0 6px rgba(255, 71, 112, 0.4));
+    }
+
+    @keyframes rise {
+      0% {
+        opacity: 0;
         transform:
-            translateY(110vh)
-            rotate(360deg);
+          translate3d(0, 0, 0)
+          scale(0.5)
+          rotate(0);
+      }
 
-        opacity:0;
+      12% {
+        opacity: 0.9;
+      }
+
+      100% {
+        opacity: 0;
+        transform:
+          translate3d(var(--drift), -115vh, 0)
+          scale(1.15)
+          rotate(30deg);
+      }
     }
 
-}
+    /* Floor glow */
 
-/* Small note text shown only if sound is still blocked */
-.sound-hint{
-    position:fixed;
-    bottom:16px;
-    left:50%;
-    transform:translateX(-50%);
-    background:rgba(0,0,0,.55);
-    padding:8px 16px;
-    border-radius:20px;
-    font-size:12px;
-    letter-spacing:1px;
-    color:#ffe6ef;
-    z-index:30;
-    cursor:pointer;
-    display:none;
-}
+    .floor-glow {
+      position: absolute;
+      left: 50%;
+      bottom: -8%;
+      width: min(900px, 140vw);
+      height: 42%;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: radial-gradient(
+        ellipse,
+        rgba(255, 205, 105, 0.14),
+        transparent 68%
+      );
+      opacity: 0;
+      transition: opacity 1.2s ease;
+      pointer-events: none;
+    }
 
-</style>
+    body.lit .floor-glow {
+      opacity: 1;
+    }
+
+    /* Instruction */
+
+    .instruction {
+      position: absolute;
+      left: 50%;
+      bottom: 7vh;
+      transform: translateX(-50%);
+      width: max-content;
+      max-width: 90%;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.58);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .instruction .arrow {
+      display: inline-block;
+      margin-right: 7px;
+      animation: bounce 1.2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(5px);
+      }
+    }
+
+    @media (max-height: 650px) {
+      .lamp {
+        top: 2vh;
+      }
+
+      .message {
+        top: 45%;
+      }
+
+      .instruction {
+        bottom: 4vh;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+  </style>
 </head>
-
 
 <body>
 
-<!-- =========================
-     INTRO
-========================= -->
+  <main class="scene">
 
-<section id="intro">
+    <div class="light-cone"></div>
+    <div class="floor-glow"></div>
 
-    <div class="intro-box">
+    <!-- Lamp -->
+    <section class="lamp" aria-label="Pull cord lamp">
 
-        <div class="intro-title" id="introTitle">
-            Something special for Douaa 🤍
-        </div>
+      <div class="ceiling-mount"></div>
 
-        <button id="startBtn">
-            OPEN YOUR BIRTHDAY GIFT
-        </button>
+      <div class="main-wire"></div>
 
-        <div id="chrono">
-            00:10
-        </div>
+      <div class="shade"></div>
 
+      <div class="bulb"></div>
+
+      <!-- Pull this cord downward -->
+      <div class="cord-zone" id="cordZone">
+        <div class="pull-cord" id="pullCord"></div>
+        <div class="cord-handle" id="cordHandle"></div>
+      </div>
+
+    </section>
+
+    <!-- Message -->
+    <section class="message" aria-live="polite">
+
+      <h1>
+        I <span class="heart">♥</span> YOU
+      </h1>
+
+      <p>
+        You make my world brighter.
+      </p>
+
+    </section>
+
+    <!-- Floating hearts -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Instructions -->
+    <div class="instruction" id="instruction">
+      <span class="arrow">↓</span>
+      Pull the cord down
     </div>
 
-</section>
+  </main>
 
+  <script>
 
-<!-- =========================
-     MAIN PAGE
-========================= -->
+    const body = document.body;
 
-<main id="main">
+    const cordZone =
+      document.getElementById("cordZone");
 
+    const pullCord =
+      document.getElementById("pullCord");
 
-    <!-- =====================
-         VIDEO
-    ====================== -->
+    const cordHandle =
+      document.getElementById("cordHandle");
 
-    <div class="video-frame">
+    const instruction =
+      document.getElementById("instruction");
 
-        <video
-            id="bgVideo"
-            playsinline
-            loop
-            preload="auto"
-            webkit-playsinline>
+    const particles =
+      document.getElementById("particles");
 
-            <source
-                src="douaahouidheg_3308418329708534230.mp4"
-                type="video/mp4">
 
-        </video>
+    const NORMAL_LENGTH = 92;
 
-        <div class="video-dark"></div>
+    const MAX_PULL = 95;
 
-    </div>
+    const TRIGGER_DISTANCE = 48;
 
 
+    let pointerStartY = 0;
 
-    <!-- =====================
-         MESSAGE CARD
-    ====================== -->
+    let currentPull = 0;
 
-    <div class="card">
+    let dragging = false;
 
+    let lightOn = false;
 
-        <!-- PHOTO -->
+    let hasTriggered = false;
 
-        <img
-            class="photo"
-            src="1000101121.jpg"
-            alt="Douaa"
-            onerror="this.src='https://placehold.co/170x170/35121f/ffe5ef?text=Douaa'">
 
+    /*
+      Updates the visual length of the pull cord.
+    */
 
+    function setCordLength(length) {
 
-        <!-- TITLE -->
+      const clamped =
+        Math.max(NORMAL_LENGTH, length);
 
-        <h1>
-            Happy Birthday, Douaa 🤍
-        </h1>
+      pullCord.style.height =
+        `${clamped}px`;
 
+      cordHandle.style.top =
+        `${clamped - 8}px`;
+    }
 
-        <div class="subtitle">
-            A little late, but from the heart.
-        </div>
 
+    /*
+      Start dragging the cord.
+    */
 
+    function startPull(event) {
 
-        <!-- MESSAGE -->
+      dragging = true;
 
-        <div class="message">
+      hasTriggered = false;
 
-            <p>
-                Happy birthday to a girl who has become
-                really special to me. 🤍
-                I know this message is late, but some
-                feelings deserve more than a simple
-                “happy birthday” sent in a hurry.
-            </p>
+      pointerStartY =
+        event.clientY;
 
+      currentPull = 0;
 
-            <p>
-                Your birthday was supposed to be the day
-                we finally met, and honestly, I was really
-                looking forward to that moment.
-                It didn't happen the way we planned,
-                but that doesn't change how happy I am
-                that I got to know you.
-            </p>
+      cordZone.classList.add("pulling");
 
+      if (cordZone.setPointerCapture) {
+        cordZone.setPointerCapture(
+          event.pointerId
+        );
+      }
 
-            <p>
-                I don't know exactly what the future has
-                planned for us, but I know that having you
-                in my life means something to me.
-                I love the way you are, the little things
-                about you, your energy, and the way you
-                can make a normal moment feel special
-                without even trying.
-            </p>
+      event.preventDefault();
+    }
 
 
-            <p>
-                So even if this wish comes a little late,
-                I hope this new year of your life brings
-                you beautiful moments, genuine happiness,
-                peaceful days, and everything your heart
-                is hoping for.
-            </p>
+    /*
+      Move the cord downward.
+    */
 
+    function movePull(event) {
 
-            <p>
-                And maybe, one day soon, we will finally
-                get that meeting we were supposed to have. 🤍
-            </p>
+      if (!dragging) return;
 
+      currentPull =
+        Math.max(
+          0,
+          event.clientY - pointerStartY
+        );
 
-            <div class="signature">
-                Happy birthday, Douaa.
-                You deserve beautiful things. 🥀
-            </div>
+      const visualPull =
+        Math.min(
+          currentPull,
+          MAX_PULL
+        );
 
-        </div>
+      setCordLength(
+        NORMAL_LENGTH + visualPull
+      );
 
-    </div>
 
-</main>
+      /*
+        When the user pulls far enough,
+        toggle the lamp.
+      */
 
-<div class="sound-hint" id="soundHint">🔊 Tap here to enable sound</div>
+      if (
+        currentPull >= TRIGGER_DISTANCE &&
+        !hasTriggered
+      ) {
 
-<script>
+        hasTriggered = true;
 
-/* =========================
-   ELEMENTS
-========================= */
+        toggleLight();
+      }
+    }
 
-const startBtn =
-    document.getElementById("startBtn");
 
-const introTitle =
-    document.getElementById("introTitle");
+    /*
+      Release the cord.
+    */
 
-const chrono =
-    document.getElementById("chrono");
+    function endPull() {
 
-const intro =
-    document.getElementById("intro");
+      if (!dragging) return;
 
-const main =
-    document.getElementById("main");
+      dragging = false;
 
-const bgVideo =
-    document.getElementById("bgVideo");
+      cordZone.classList.remove(
+        "pulling"
+      );
 
-const soundHint =
-    document.getElementById("soundHint");
+      /*
+        The cord smoothly returns
+        to its normal position.
+      */
 
+      setCordLength(
+        NORMAL_LENGTH
+      );
+    }
 
-/* =========================
-   COUNTDOWN
-========================= */
 
-let timeLeft = 10;
+    /*
+      Turn the lamp on/off.
+    */
 
+    function toggleLight() {
 
-/* =========================
-   START BUTTON EVENT
-========================= */
+      lightOn = !lightOn;
 
-startBtn.addEventListener("click", () => {
+      body.classList.toggle(
+        "lit",
+        lightOn
+      );
 
-    startBtn.style.display = "none";
 
-    introTitle.style.display = "none";
+      if (lightOn) {
 
-    chrono.style.display = "flex";
+        instruction.innerHTML =
+          '<span class="arrow">↓</span> Pull again to turn it off';
 
-    chrono.innerText = "00:10";
+        createParticles(24);
 
-    /* =====================
-       AUDIO UNLOCK TRICK
-       ---------------------
-       Browsers only allow sound to start playing
-       INSIDE a direct user click. Since our real
-       video starts later (inside setInterval), the
-       browser blocks the sound there.
-       So here, right inside the click, we quickly
-       play + immediately pause the video once.
-       This "unlocks" audio permission for this
-       video element, so when we play it again later
-       (after the countdown), the sound works.
-    ===================== */
+      } else {
 
-    bgVideo.muted = false;
+        instruction.innerHTML =
+          '<span class="arrow">↓</span> Pull the cord down';
+      }
+    }
 
-    bgVideo.play()
-        .then(() => {
-            bgVideo.pause();
-            bgVideo.currentTime = 0;
-        })
-        .catch(() => {
-            /* If even this is blocked, we'll show a
-               manual "tap to unmute" hint later */
-        });
 
+    /*
+      Create floating hearts and stars.
+    */
 
-    const timer = setInterval(() => {
+    function createParticles(count) {
 
-        timeLeft--;
+      for (
+        let i = 0;
+        i < count;
+        i++
+      ) {
 
-        chrono.innerText =
-            "00:" +
-            (timeLeft < 10
-                ? "0" + timeLeft
-                : timeLeft);
+        const particle =
+          document.createElement("span");
 
+        particle.className =
+          "particle";
 
-        /* =====================
-           AFTER 10 SECONDS
-        ===================== */
+        particle.textContent =
+          Math.random() > 0.18
+            ? "♥"
+            : "✦";
 
-        if(timeLeft <= 0){
 
-            clearInterval(timer);
+        particle.style.left =
+          `${Math.random() * 100}%`;
 
+        particle.style.fontSize =
+          `${12 + Math.random() * 20}px`;
 
-            /* Hide countdown */
+        particle.style.animationDuration =
+          `${4 + Math.random() * 4}s`;
 
-            intro.style.display = "none";
+        particle.style.animationDelay =
+          `${Math.random() * 1.2}s`;
 
+        particle.style.setProperty(
+          "--drift",
+          `${-70 + Math.random() * 140}px`
+        );
 
-            /* Show main page */
 
-            main.style.display = "flex";
+        particles.appendChild(
+          particle
+        );
 
 
-            /* Start video WITH sound */
+        setTimeout(
+          () => particle.remove(),
+          9000
+        );
+      }
+    }
 
-            bgVideo.currentTime = 0;
 
-            bgVideo.muted = false;
+    /*
+      Pointer events:
+      Works with mouse, touch and stylus.
+    */
 
-            bgVideo.play().catch(() => {
+    cordZone.addEventListener(
+      "pointerdown",
+      startPull
+    );
 
-                /* Fallback if browser still blocks audio:
-                   play muted and show a hint so the user
-                   can tap once to enable sound manually */
+    cordZone.addEventListener(
+      "pointermove",
+      movePull
+    );
 
-                bgVideo.muted = true;
+    cordZone.addEventListener(
+      "pointerup",
+      endPull
+    );
 
-                bgVideo.play().catch(() => {});
+    cordZone.addEventListener(
+      "pointercancel",
+      endPull
+    );
 
-                soundHint.style.display = "block";
 
-            });
+    /*
+      Prevent the page from scrolling
+      while touching the cord.
+    */
 
+    cordZone.addEventListener(
+      "touchstart",
+      event => event.preventDefault(),
+      { passive: false }
+    );
 
-            /* Start falling hearts effect */
 
-            startHearts();
+    /*
+      Initial cord position.
+    */
 
-        }
+    setCordLength(
+      NORMAL_LENGTH
+    );
 
-    }, 1000);
-
-});
-
-
-/* Manual sound re-enable, in case autoplay
-   with sound was still blocked by the browser */
-
-soundHint.addEventListener("click", () => {
-
-    bgVideo.muted = false;
-
-    bgVideo.play().then(() => {
-        soundHint.style.display = "none";
-    }).catch(() => {});
-
-});
-
-
-
-/* =========================
-   FALLING HEARTS FUNCTION
-========================= */
-
-function startHearts(){
-
-    setInterval(() => {
-
-        const heart =
-            document.createElement("div");
-
-        heart.className = "heart";
-
-        heart.innerHTML =
-            Math.random() > .5 ? "♡" : "♥";
-
-        heart.style.left =
-            Math.random() * 100 + "vw";
-
-        heart.style.fontSize =
-            (12 + Math.random() * 12) + "px";
-
-        heart.style.animationDuration =
-            (5 + Math.random() * 5) + "s";
-
-        document.body.appendChild(heart);
-
-
-        setTimeout(() => {
-
-            heart.remove();
-
-        }, 10000);
-
-    }, 500);
-
-}
-
-</script>
+  </script>
 
 </body>
 </html>
