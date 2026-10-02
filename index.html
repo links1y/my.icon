@@ -1,723 +1,1496 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#050608" />
-  <title>Pull the Cord</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Amoula ♡</title>
 
-  <style>
-    :root {
-      --bg: #050608;
-      --warm: #ffd77a;
-      --pink: #ff4770;
-      --text: #f8f8f8;
-      --muted: rgba(255, 255, 255, 0.58);
-    }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
 
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      overflow: hidden;
-    }
+body{
+    background:#fff0f6;
+    color:#5b3044;
+    font-family:Georgia,"Times New Roman",serif;
+}
 
-    body {
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      user-select: none;
-      touch-action: none;
-      transition: background 1.2s ease;
-    }
+/* =====================================================
+   BACKGROUND
+===================================================== */
 
-    body.lit {
-      background:
+.page{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 15% 20%,rgba(255,182,209,.55),transparent 30%),
+        radial-gradient(circle at 85% 15%,rgba(255,213,229,.65),transparent 32%),
+        radial-gradient(circle at 50% 100%,rgba(247,146,181,.25),transparent 45%),
+        linear-gradient(135deg,#fff7fa,#ffe9f1,#fff5f8);
+}
+
+/* Decorative glowing blobs */
+
+.glow{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(50px);
+    pointer-events:none;
+    opacity:.6;
+}
+
+.glow.one{
+    width:260px;
+    height:260px;
+    background:#ff9fc3;
+    top:-80px;
+    left:-80px;
+    animation:blobOne 8s ease-in-out infinite alternate;
+}
+
+.glow.two{
+    width:300px;
+    height:300px;
+    background:#ffc5da;
+    right:-100px;
+    bottom:-80px;
+    animation:blobTwo 10s ease-in-out infinite alternate;
+}
+
+.glow.three{
+    width:180px;
+    height:180px;
+    background:#f78fb6;
+    left:50%;
+    top:45%;
+    opacity:.18;
+    animation:blobThree 7s ease-in-out infinite alternate;
+}
+
+/* =====================================================
+   VIDEO FRAME
+===================================================== */
+
+.video-frame{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+
+    width:min(760px,91vw);
+    height:87vh;
+
+    border-radius:32px;
+    overflow:hidden;
+
+    box-shadow:
+        0 35px 100px rgba(186,55,108,.25),
+        0 0 0 1px rgba(255,255,255,.85);
+
+    z-index:1;
+}
+
+.video-frame video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.video-frame::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:2;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.08),
+            rgba(255,192,214,.20)
+        );
+    pointer-events:none;
+}
+
+/* =====================================================
+   DECORATIVE CORNERS
+===================================================== */
+
+.corner{
+    position:fixed;
+    z-index:40;
+    color:#d84b7b;
+    font-size:28px;
+    opacity:.7;
+    pointer-events:none;
+}
+
+.corner.tl{
+    top:25px;
+    left:25px;
+}
+
+.corner.tr{
+    top:25px;
+    right:25px;
+}
+
+.corner.bl{
+    bottom:25px;
+    left:25px;
+}
+
+.corner.br{
+    bottom:25px;
+    right:25px;
+}
+
+/* =====================================================
+   INTRO
+===================================================== */
+
+#intro{
+    position:fixed;
+    inset:0;
+    z-index:100;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
         radial-gradient(
-          circle at 50% 25%,
-          rgba(255, 206, 112, 0.15),
-          transparent 27%
-        ),
-        linear-gradient(180deg, #17120d 0%, #08090d 72%);
-    }
+            circle at center,
+            rgba(255,245,249,.97),
+            rgba(255,232,241,.985)
+        );
 
-    .scene {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      isolation: isolate;
-    }
-
-    /* Ambient light */
-
-    .light-cone {
-      position: absolute;
-      top: 70px;
-      left: 50%;
-      width: min(850px, 150vw);
-      height: min(760px, 115vh);
-      transform: translateX(-50%);
-      background: radial-gradient(
-        ellipse at 50% 10%,
-        rgba(255, 215, 122, 0.27) 0%,
-        rgba(255, 190, 75, 0.12) 25%,
-        transparent 67%
-      );
-      filter: blur(14px);
-      opacity: 0;
-      transition: opacity 1s ease;
-      z-index: -2;
-      pointer-events: none;
-    }
-
-    body.lit .light-cone {
-      opacity: 1;
-    }
-
-    /* Lamp */
-
-    .lamp {
-      position: absolute;
-      top: 4vh;
-      left: 50%;
-      width: 220px;
-      height: 245px;
-      transform: translateX(-50%);
-      z-index: 10;
-    }
-
-    .ceiling-mount {
-      width: 34px;
-      height: 9px;
-      margin: 0 auto;
-      border-radius: 8px;
-      background: #292a2e;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.7);
-    }
-
-    .main-wire {
-      width: 4px;
-      height: 65px;
-      margin: 0 auto;
-      border-radius: 5px;
-      background: linear-gradient(90deg, #555, #aaa, #555);
-    }
-
-    .shade {
-      position: relative;
-      width: 172px;
-      height: 82px;
-      margin: 0 auto;
-      background: linear-gradient(180deg, #303136, #111216);
-      clip-path: polygon(16% 0, 84% 0, 100% 100%, 0 100%);
-      filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.55));
-      transition:
-        background 0.7s ease,
-        filter 0.7s ease;
-    }
-
-    body.lit .shade {
-      background: linear-gradient(180deg, #fff0c5, #d8c59c);
-      filter:
-        drop-shadow(0 0 28px rgba(255, 214, 115, 0.4))
-        drop-shadow(0 12px 18px rgba(0, 0, 0, 0.4));
-    }
-
-    .bulb {
-      position: absolute;
-      top: 112px;
-      left: 50%;
-      width: 37px;
-      height: 43px;
-      transform: translateX(-50%);
-      border-radius: 50% 50% 46% 46%;
-      background: #25262a;
-      box-shadow: inset 0 -4px 8px rgba(0, 0, 0, 0.3);
-      transition: all 0.55s ease;
-    }
-
-    body.lit .bulb {
-      background: #fff6ca;
-      box-shadow:
-        0 0 14px #fff1a8,
-        0 0 36px 12px rgba(255, 207, 88, 0.8),
-        0 0 100px 36px rgba(255, 176, 44, 0.28);
-    }
-
-    /* Pull cord */
-
-    .cord-zone {
-      position: absolute;
-      top: 135px;
-      left: 50%;
-      width: 80px;
-      height: 145px;
-      transform: translateX(-50%);
-      cursor: grab;
-      z-index: 20;
-    }
-
-    .cord-zone:active {
-      cursor: grabbing;
-    }
-
-    .pull-cord {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 4px;
-      height: 92px;
-      transform: translateX(-50%);
-      transform-origin: top;
-      border-radius: 5px;
-      background: linear-gradient(90deg, #777, #f0f0f0, #777);
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-      transition: height 0.18s cubic-bezier(.2, .8, .2, 1);
-      pointer-events: none;
-    }
-
-    .cord-handle {
-      position: absolute;
-      left: 50%;
-      top: 84px;
-      width: 24px;
-      height: 30px;
-      transform: translateX(-50%);
-      border-radius: 50% 50% 45% 45%;
-      background: linear-gradient(135deg, #eeeeee, #8d8d8d);
-      box-shadow:
-        inset -3px -4px 5px rgba(0, 0, 0, 0.28),
-        0 4px 8px rgba(0, 0, 0, 0.5);
-      pointer-events: none;
-      transition: top 0.18s cubic-bezier(.2, .8, .2, 1);
-    }
-
-    .cord-zone.pulling .pull-cord,
-    .cord-zone.pulling .cord-handle {
-      transition: none;
-    }
-
-    /* Message */
-
-    .message {
-      position: absolute;
-      top: 43%;
-      left: 50%;
-      width: 100%;
-      padding: 0 20px;
-      text-align: center;
-      transform: translate(-50%, 35px) scale(0.82);
-      opacity: 0;
-      pointer-events: none;
-      transition:
+    transition:
         opacity 1s ease,
-        transform 1s cubic-bezier(.16, 1, .3, 1);
+        visibility 1s ease;
+}
+
+#intro.hidden{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.intro-content{
+    width:min(90%,520px);
+    text-align:center;
+    padding:40px 25px;
+
+    position:relative;
+
+    animation:introFloat 4s ease-in-out infinite;
+}
+
+/* Little crown */
+
+.crown{
+    font-size:30px;
+    margin-bottom:15px;
+    animation:crownGlow 2s ease-in-out infinite;
+}
+
+.intro-content h2{
+    color:#d84b7b;
+    font-weight:normal;
+    font-size:clamp(2.1rem,7vw,4rem);
+    line-height:1.15;
+
+    text-shadow:
+        0 5px 20px rgba(216,75,123,.15);
+
+    margin-bottom:32px;
+}
+
+/* =====================================================
+   START BUTTON
+===================================================== */
+
+#startBtn{
+    position:relative;
+
+    padding:17px 34px;
+
+    border:1px solid rgba(216,75,123,.3);
+    border-radius:50px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.95),
+            rgba(255,224,235,.9)
+        );
+
+    color:#d84b7b;
+
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:.82rem;
+    letter-spacing:2.2px;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 12px 35px rgba(216,75,123,.18),
+        inset 0 1px 0 white;
+
+    transition:.35s ease;
+
+    overflow:hidden;
+}
+
+#startBtn::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-120%;
+    width:70%;
+    height:100%;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.9),
+        transparent
+    );
+
+    transform:skewX(-20deg);
+    transition:.7s ease;
+}
+
+#startBtn:hover::before{
+    left:140%;
+}
+
+#startBtn:hover{
+    transform:translateY(-5px) scale(1.04);
+    box-shadow:
+        0 18px 45px rgba(216,75,123,.28);
+}
+
+#startBtn:active{
+    transform:scale(.96);
+}
+
+/* =====================================================
+   COUNTDOWN
+===================================================== */
+
+#chrono{
+    width:145px;
+    height:145px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    display:none;
+    align-items:center;
+    justify-content:center;
+
+    font-family:"Courier New",monospace;
+    font-size:1.8rem;
+
+    color:#d84b7b;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.98),
+            rgba(255,222,234,.72)
+        );
+
+    border:
+        2px solid rgba(216,75,123,.3);
+
+    box-shadow:
+        0 0 0 8px rgba(216,75,123,.045),
+        0 0 45px rgba(216,75,123,.2);
+
+    animation:timerPulse 1s ease-in-out infinite;
+}
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+#main{
+    position:fixed;
+    inset:0;
+    z-index:10;
+    display:none;
+}
+
+#main.visible{
+    display:block;
+}
+
+/* =====================================================
+   GLASS CARD
+===================================================== */
+
+.card{
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-47%)
+        scale(.91);
+
+    width:min(760px,91vw);
+    height:87vh;
+
+    border-radius:32px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.84),
+            rgba(255,239,246,.70)
+        );
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    border:
+        1px solid rgba(255,255,255,.9);
+
+    box-shadow:
+        0 35px 100px rgba(183,53,104,.23),
+        inset 0 0 50px rgba(255,255,255,.45);
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    padding:55px 55px 70px;
+
+    opacity:0;
+}
+
+#main.visible .card{
+    animation:cardIn 1.2s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+/* glowing border */
+
+.card::before{
+    content:"";
+    position:absolute;
+    inset:7px;
+
+    border-radius:26px;
+
+    border:1px solid rgba(255,182,193,.38);
+
+    pointer-events:none;
+}
+
+/* Scrollbar */
+
+.card::-webkit-scrollbar{
+    width:6px;
+}
+
+.card::-webkit-scrollbar-track{
+    background:rgba(255,182,193,.1);
+}
+
+.card::-webkit-scrollbar-thumb{
+    background:#ff9fba;
+    border-radius:20px;
+}
+
+.card{
+    scrollbar-width:thin;
+    scrollbar-color:#ff9fba rgba(255,182,193,.1);
+}
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+.profile{
+    text-align:center;
+    position:relative;
+    z-index:2;
+}
+
+.avatar-wrap{
+    position:relative;
+    display:inline-block;
+    margin-bottom:22px;
+}
+
+.avatar{
+    width:170px;
+    height:170px;
+
+    object-fit:cover;
+    border-radius:50%;
+
+    border:5px solid white;
+
+    box-shadow:
+        0 18px 40px rgba(216,75,123,.28),
+        0 0 0 8px rgba(255,174,202,.18),
+        0 0 0 15px rgba(255,255,255,.18);
+
+    animation:avatarFloat 5s ease-in-out infinite;
+}
+
+/* decorative heart around avatar */
+
+.avatar-wrap::before,
+.avatar-wrap::after{
+    position:absolute;
+    color:#e56b91;
+    font-size:26px;
+}
+
+.avatar-wrap::before{
+    content:"♡";
+    left:-28px;
+    top:20px;
+    animation:miniFloat 3s ease-in-out infinite;
+}
+
+.avatar-wrap::after{
+    content:"♡";
+    right:-28px;
+    bottom:18px;
+    animation:miniFloat 3.5s ease-in-out infinite reverse;
+}
+
+.profile h1{
+    color:#d84b7b;
+    font-size:clamp(2.4rem,7vw,3.7rem);
+    font-weight:normal;
+    line-height:1.1;
+
+    margin-bottom:9px;
+
+    text-shadow:
+        0 5px 20px rgba(216,75,123,.13);
+}
+
+.subtitle{
+    color:#a95373;
+    font-size:1.05rem;
+    font-style:italic;
+}
+
+/* =====================================================
+   DECORATIVE DIVIDER
+===================================================== */
+
+.divider{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    margin:30px auto;
+    width:75%;
+    height:20px;
+
+    color:#e36a91;
+    font-size:15px;
+}
+
+.divider::before,
+.divider::after{
+    content:"";
+    height:1px;
+    flex:1;
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #ffb6c1,
+            transparent
+        );
+}
+
+.divider span{
+    padding:0 12px;
+}
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+.message{
+    position:relative;
+    z-index:2;
+}
+
+.message p{
+    font-size:1.04rem;
+    line-height:1.88;
+
+    color:#5c3a46;
+
+    margin-bottom:23px;
+
+    text-align:left;
+}
+
+.message p:first-child::first-letter{
+    color:#d84b7b;
+    font-size:1.6em;
+}
+
+/* =====================================================
+   SIGNATURE
+===================================================== */
+
+.signature{
+    text-align:center;
+
+    font-family:
+        "Brush Script MT",
+        "Segoe Script",
+        cursive;
+
+    font-size:clamp(2.2rem,7vw,3.2rem);
+
+    background:
+        linear-gradient(
+            90deg,
+            #c83d70,
+            #ff9fbd,
+            #ffffff,
+            #ff7da7,
+            #c83d70
+        );
+
+    background-size:300% auto;
+
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+
+    animation:signatureShine 5s linear infinite;
+}
+
+/* =====================================================
+   SOUND BUTTON
+===================================================== */
+
+#soundHint{
+    position:fixed;
+    left:50%;
+    bottom:22px;
+
+    transform:translateX(-50%);
+
+    z-index:80;
+
+    border:1px solid rgba(216,75,123,.28);
+
+    background:
+        rgba(255,255,255,.82);
+
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
+
+    color:#d84b7b;
+
+    padding:12px 20px;
+
+    border-radius:40px;
+
+    font-family:Georgia,"Times New Roman",serif;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 12px 35px rgba(216,75,123,.18);
+
+    transition:.35s ease;
+
+    animation:soundPulse 2s ease-in-out infinite;
+}
+
+#soundHint.hidden{
+    opacity:0;
+    pointer-events:none;
+    transform:
+        translateX(-50%)
+        translateY(20px);
+}
+
+#soundHint:hover{
+    transform:
+        translateX(-50%)
+        translateY(-4px);
+}
+
+/* =====================================================
+   HEARTS
+===================================================== */
+
+.heart{
+    position:fixed;
+
+    top:-50px;
+
+    z-index:60;
+
+    pointer-events:none;
+
+    color:#d84b7b;
+
+    font-size:var(--size);
+
+    opacity:0;
+
+    filter:
+        drop-shadow(
+            0 4px 8px rgba(216,75,123,.22)
+        );
+
+    animation:
+        heartFall var(--duration) linear forwards;
+}
+
+/* tiny sparkles */
+
+.sparkle{
+    position:fixed;
+    z-index:55;
+
+    pointer-events:none;
+
+    color:white;
+
+    text-shadow:
+        0 0 8px #ff8faf,
+        0 0 15px #ff8faf;
+
+    animation:sparkleFade 2.5s ease forwards;
+}
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+
+@keyframes introFloat{
+    0%,100%{
+        transform:translateY(0);
     }
-
-    body.lit .message {
-      opacity: 1;
-      transform: translate(-50%, 0) scale(1);
+    50%{
+        transform:translateY(-9px);
     }
+}
 
-    .message h1 {
-      margin: 0;
-      font-size: clamp(42px, 11vw, 100px);
-      line-height: 0.95;
-      letter-spacing: 0.02em;
-      font-weight: 800;
-      text-shadow: 0 0 24px rgba(255, 86, 117, 0.35);
+@keyframes crownGlow{
+    0%,100%{
+        transform:scale(1);
+        filter:drop-shadow(0 0 0 transparent);
     }
-
-    .heart {
-      display: inline-block;
-      color: var(--pink);
-      animation: heartbeat 1.15s ease-in-out infinite;
-      filter: drop-shadow(0 0 12px rgba(255, 71, 112, 0.5));
+    50%{
+        transform:scale(1.12);
+        filter:drop-shadow(0 0 12px rgba(216,75,123,.45));
     }
+}
 
-    .message p {
-      margin: 18px 0 0;
-      color: var(--muted);
-      font-size: clamp(14px, 3.5vw, 20px);
-      letter-spacing: 0.08em;
+@keyframes timerPulse{
+    0%,100%{
+        transform:scale(1);
+        box-shadow:
+            0 0 0 8px rgba(216,75,123,.04),
+            0 0 45px rgba(216,75,123,.2);
     }
-
-    @keyframes heartbeat {
-      0%, 100% {
-        transform: scale(1);
-      }
-
-      14% {
-        transform: scale(1.25);
-      }
-
-      28% {
-        transform: scale(1);
-      }
-
-      42% {
-        transform: scale(1.15);
-      }
+    50%{
+        transform:scale(1.08);
+        box-shadow:
+            0 0 0 17px rgba(216,75,123,.025),
+            0 0 65px rgba(216,75,123,.3);
     }
+}
 
-    /* Floating particles */
-
-    .particles {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .particle {
-      position: absolute;
-      bottom: -40px;
-      color: var(--pink);
-      opacity: 0;
-      animation: rise linear forwards;
-      filter: drop-shadow(0 0 6px rgba(255, 71, 112, 0.4));
-    }
-
-    @keyframes rise {
-      0% {
-        opacity: 0;
+@keyframes cardIn{
+    from{
+        opacity:0;
         transform:
-          translate3d(0, 0, 0)
-          scale(0.5)
-          rotate(0);
-      }
+            translate(-50%,-47%)
+            scale(.91);
+    }
 
-      12% {
-        opacity: 0.9;
-      }
-
-      100% {
-        opacity: 0;
+    to{
+        opacity:1;
         transform:
-          translate3d(var(--drift), -115vh, 0)
-          scale(1.15)
-          rotate(30deg);
-      }
+            translate(-50%,-50%)
+            scale(1);
+    }
+}
+
+@keyframes avatarFloat{
+    0%,100%{
+        transform:translateY(0) rotate(0);
     }
 
-    /* Floor glow */
+    50%{
+        transform:translateY(-7px) rotate(1deg);
+    }
+}
 
-    .floor-glow {
-      position: absolute;
-      left: 50%;
-      bottom: -8%;
-      width: min(900px, 140vw);
-      height: 42%;
-      transform: translateX(-50%);
-      border-radius: 50%;
-      background: radial-gradient(
-        ellipse,
-        rgba(255, 205, 105, 0.14),
-        transparent 68%
-      );
-      opacity: 0;
-      transition: opacity 1.2s ease;
-      pointer-events: none;
+@keyframes miniFloat{
+    0%,100%{
+        transform:translateY(0) rotate(-8deg);
     }
 
-    body.lit .floor-glow {
-      opacity: 1;
+    50%{
+        transform:translateY(-9px) rotate(8deg);
+    }
+}
+
+@keyframes signatureShine{
+    0%{
+        background-position:0 center;
     }
 
-    /* Instruction */
+    100%{
+        background-position:300% center;
+    }
+}
 
-    .instruction {
-      position: absolute;
-      left: 50%;
-      bottom: 7vh;
-      transform: translateX(-50%);
-      width: max-content;
-      max-width: 90%;
-      text-align: center;
-      color: rgba(255, 255, 255, 0.58);
-      font-size: 13px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+@keyframes soundPulse{
+    0%,100%{
+        box-shadow:
+            0 12px 35px rgba(216,75,123,.16);
     }
 
-    .instruction .arrow {
-      display: inline-block;
-      margin-right: 7px;
-      animation: bounce 1.2s infinite;
+    50%{
+        box-shadow:
+            0 12px 45px rgba(216,75,123,.3);
+    }
+}
+
+@keyframes heartFall{
+    0%{
+        transform:
+            translate3d(0,-10vh,0)
+            rotate(0deg)
+            scale(.7);
+
+        opacity:0;
     }
 
-    @keyframes bounce {
-      0%, 100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(5px);
-      }
+    10%{
+        opacity:var(--opacity);
     }
 
-    @media (max-height: 650px) {
-      .lamp {
-        top: 2vh;
-      }
-
-      .message {
-        top: 45%;
-      }
-
-      .instruction {
-        bottom: 4vh;
-      }
+    50%{
+        transform:
+            translate3d(
+                var(--sway),
+                50vh,
+                0
+            )
+            rotate(180deg)
+            scale(1);
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: 0.001ms !important;
-        transition-duration: 0.001ms !important;
-      }
+    100%{
+        transform:
+            translate3d(
+                var(--sway2),
+                115vh,
+                0
+            )
+            rotate(360deg)
+            scale(.7);
+
+        opacity:0;
     }
-  </style>
+}
+
+@keyframes sparkleFade{
+    0%{
+        opacity:0;
+        transform:scale(.4) rotate(0);
+    }
+
+    30%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:0;
+        transform:scale(1.5) rotate(90deg);
+    }
+}
+
+@keyframes blobOne{
+    from{
+        transform:translate(0,0) scale(1);
+    }
+    to{
+        transform:translate(80px,50px) scale(1.25);
+    }
+}
+
+@keyframes blobTwo{
+    from{
+        transform:translate(0,0) scale(1);
+    }
+    to{
+        transform:translate(-70px,-50px) scale(1.2);
+    }
+}
+
+@keyframes blobThree{
+    from{
+        transform:translate(-50%,-50%) scale(1);
+    }
+    to{
+        transform:translate(-50%,-50%) scale(1.5);
+    }
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:600px){
+
+    .video-frame,
+    .card{
+        width:91vw;
+        height:82vh;
+        border-radius:26px;
+    }
+
+    .card{
+        padding:35px 24px 60px;
+    }
+
+    .avatar{
+        width:140px;
+        height:140px;
+    }
+
+    .profile h1{
+        font-size:2.5rem;
+    }
+
+    .subtitle{
+        font-size:.95rem;
+    }
+
+    .message p{
+        font-size:.98rem;
+        line-height:1.78;
+    }
+
+    #chrono{
+        width:115px;
+        height:115px;
+        font-size:1.55rem;
+    }
+
+    #soundHint{
+        bottom:14px;
+        font-size:.8rem;
+        padding:10px 15px;
+        white-space:nowrap;
+    }
+
+    .corner{
+        font-size:20px;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+    *,
+    *::before,
+    *::after{
+        animation-duration:.01ms!important;
+        animation-iteration-count:1!important;
+    }
+}
+</style>
 </head>
 
 <body>
 
-  <main class="scene">
+<!-- =====================================================
+     BACKGROUND
+===================================================== -->
 
-    <div class="light-cone"></div>
-    <div class="floor-glow"></div>
+<div class="page">
 
-    <!-- Lamp -->
-    <section class="lamp" aria-label="Pull cord lamp">
+    <div class="glow one"></div>
+    <div class="glow two"></div>
+    <div class="glow three"></div>
 
-      <div class="ceiling-mount"></div>
+    <div class="video-frame">
 
-      <div class="main-wire"></div>
+        <video
+            id="bgVideo"
+            loop
+            playsinline
+            preload="auto"
+            poster="1790953715531.jpg">
 
-      <div class="shade"></div>
+            <source
+                src="amoulla_nr_3954251129600661639.mp4"
+                type="video/mp4">
 
-      <div class="bulb"></div>
+        </video>
 
-      <!-- Pull this cord downward -->
-      <div class="cord-zone" id="cordZone">
-        <div class="pull-cord" id="pullCord"></div>
-        <div class="cord-handle" id="cordHandle"></div>
-      </div>
-
-    </section>
-
-    <!-- Message -->
-    <section class="message" aria-live="polite">
-
-      <h1>
-        I <span class="heart">♥</span> YOU
-      </h1>
-
-      <p>
-        You make my world brighter.
-      </p>
-
-    </section>
-
-    <!-- Floating hearts -->
-    <div class="particles" id="particles"></div>
-
-    <!-- Instructions -->
-    <div class="instruction" id="instruction">
-      <span class="arrow">↓</span>
-      Pull the cord down
     </div>
 
-  </main>
-
-  <script>
-
-    const body = document.body;
-
-    const cordZone =
-      document.getElementById("cordZone");
-
-    const pullCord =
-      document.getElementById("pullCord");
-
-    const cordHandle =
-      document.getElementById("cordHandle");
-
-    const instruction =
-      document.getElementById("instruction");
-
-    const particles =
-      document.getElementById("particles");
+</div>
 
 
-    const NORMAL_LENGTH = 92;
+<!-- Decorative corners -->
 
-    const MAX_PULL = 95;
+<div class="corner tl">♡</div>
+<div class="corner tr">✧</div>
+<div class="corner bl">✧</div>
+<div class="corner br">♡</div>
 
-    const TRIGGER_DISTANCE = 48;
+
+<!-- =====================================================
+     INTRO
+===================================================== -->
+
+<section id="intro">
+
+    <div class="intro-content">
+
+        <div class="crown">🎀</div>
+
+        <h2 id="introTitle">
+            Something special for Amoula 🤍
+        </h2>
+
+        <button id="startBtn">
+            OPEN YOUR MESSAGE
+        </button>
+
+        <div id="chrono">
+            00:10
+        </div>
+
+    </div>
+
+</section>
 
 
-    let pointerStartY = 0;
+<!-- =====================================================
+     MAIN
+===================================================== -->
 
-    let currentPull = 0;
+<main id="main">
 
-    let dragging = false;
+    <article class="card">
 
-    let lightOn = false;
+        <div class="profile">
 
-    let hasTriggered = false;
+            <div class="avatar-wrap">
+
+                <img
+                    class="avatar"
+                    src="1790953715531.jpg"
+                    alt="Amoula"
+                    onerror="
+                        this.onerror=null;
+                        this.src='https://placehold.co/170x170/ffe6ee/d84b7b?text=Amoula';
+                    "
+                >
+
+            </div>
+
+            <h1>
+                Amoula 🤍
+            </h1>
+
+            <div class="subtitle">
+                Some connections are worth the wait.
+            </div>
+
+        </div>
+
+
+        <div class="divider">
+            <span>♡</span>
+        </div>
+
+
+        <div class="message">
+
+            <p>
+                We met back in April, and honestly, you caught my attention right from the start. I knew there was something genuinely special about you.
+            </p>
+
+            <p>
+                When we distanced ourselves, I completely understood. You weren't in a place to open your heart at that moment, and I respected that because your peace of mind matters to me.
+            </p>
+
+            <p>
+                But reconnecting with you yesterday was exactly what I needed. It felt like a beautiful surprise. It reminded me of your energy, your vibe, and all the reasons I was drawn to you in the first place.
+            </p>
+
+            <p>
+                I'm not sending this to rush things or put any pressure on you. I just want you to know how truly happy I am that you're back in my life, and that we are talking again.
+            </p>
+
+            <p>
+                Take all the space and time you need, Amoula. I'm just here, enjoying every conversation we share. 🤍
+            </p>
+
+        </div>
+
+
+        <div class="divider">
+            <span>♡</span>
+        </div>
+
+
+        <div class="signature">
+            So glad you're back. ✨
+        </div>
+
+    </article>
+
+</main>
+
+
+<!-- =====================================================
+     SOUND HINT
+===================================================== -->
+
+<button id="soundHint" class="hidden">
+    🔊 Tap here to enable sound
+</button>
+
+
+<!-- =====================================================
+     AUDIO
+===================================================== -->
+
+<audio
+    id="music"
+    preload="auto"
+    loop>
+
+    <source
+        src="SaveTik.io_7612456985681841415.mp3"
+        type="audio/mpeg">
+
+</audio>
+
+
+<script>
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const intro = document.getElementById("intro");
+const introTitle = document.getElementById("introTitle");
+const startBtn = document.getElementById("startBtn");
+const chrono = document.getElementById("chrono");
+
+const main = document.getElementById("main");
+
+const bgVideo = document.getElementById("bgVideo");
+const music = document.getElementById("music");
+
+const soundHint = document.getElementById("soundHint");
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let countdown = 10;
+let countdownInterval = null;
+let heartsStarted = false;
+
+
+/* =====================================================
+   START
+===================================================== */
+
+startBtn.addEventListener("click", () => {
+
+    startBtn.style.display = "none";
+    introTitle.style.display = "none";
+
+    chrono.style.display = "flex";
+
+    countdown = 10;
+
+    updateTimer();
+
+    countdownInterval = setInterval(() => {
+
+        countdown--;
+
+        updateTimer();
+
+        if(countdown <= 0){
+
+            clearInterval(countdownInterval);
+
+            openMessage();
+
+        }
+
+    },1000);
+
+});
+
+
+/* =====================================================
+   TIMER
+===================================================== */
+
+function updateTimer(){
+
+    chrono.textContent =
+        "00:" +
+        String(countdown).padStart(2,"0");
+
+}
+
+
+/* =====================================================
+   OPEN MESSAGE
+===================================================== */
+
+async function openMessage(){
+
+    intro.classList.add("hidden");
+
+    main.classList.add("visible");
 
 
     /*
-      Updates the visual length of the pull cord.
+       Start video
     */
 
-    function setCordLength(length) {
+    bgVideo.currentTime = 0;
 
-      const clamped =
-        Math.max(NORMAL_LENGTH, length);
 
-      pullCord.style.height =
-        `${clamped}px`;
+    /*
+       Start music from beginning
+    */
 
-      cordHandle.style.top =
-        `${clamped - 8}px`;
+    music.currentTime = 0;
+    music.volume = 1;
+
+
+    /*
+       Try video + music together.
+       Because the user physically clicked
+       the button before the countdown,
+       browser autoplay restrictions are
+       much less likely to interfere.
+    */
+
+    try{
+
+        bgVideo.muted = false;
+
+        await bgVideo.play();
+
+    }catch(error){
+
+        bgVideo.muted = true;
+
+        try{
+            await bgVideo.play();
+        }catch(e){}
+
+    }
+
+
+    try{
+
+        await music.play();
+
+        soundHint.classList.add("hidden");
+
+    }catch(error){
+
+        /*
+           If browser blocks audio,
+           show the manual sound button.
+        */
+
+        soundHint.classList.remove("hidden");
+
+    }
+
+
+    if(!heartsStarted){
+
+        startHearts();
+
+        heartsStarted = true;
+
+    }
+
+}
+
+
+/* =====================================================
+   SOUND BUTTON
+===================================================== */
+
+soundHint.addEventListener("click",async()=>{
+
+    try{
+
+        bgVideo.muted = false;
+        bgVideo.volume = 1;
+
+        await bgVideo.play();
+
+    }catch(error){}
+
+
+    try{
+
+        music.volume = 1;
+
+        await music.play();
+
+        soundHint.classList.add("hidden");
+
+    }catch(error){
+
+        soundHint.classList.remove("hidden");
+
+    }
+
+});
+
+
+/* =====================================================
+   HEART SYSTEM
+===================================================== */
+
+function startHearts(){
+
+    /*
+       First romantic burst
+    */
+
+    for(let i=0;i<18;i++){
+
+        setTimeout(()=>{
+            createHeart();
+        },i*150);
+
     }
 
 
     /*
-      Start dragging the cord.
+       Continuous falling hearts
     */
 
-    function startPull(event) {
+    setInterval(()=>{
 
-      dragging = true;
+        createHeart();
 
-      hasTriggered = false;
+    },550);
 
-      pointerStartY =
-        event.clientY;
 
-      currentPull = 0;
+    /*
+       Extra sparkles
+    */
 
-      cordZone.classList.add("pulling");
+    setInterval(()=>{
 
-      if (cordZone.setPointerCapture) {
-        cordZone.setPointerCapture(
-          event.pointerId
-        );
-      }
+        createSparkle();
 
-      event.preventDefault();
+    },900);
+
+}
+
+
+/* =====================================================
+   CREATE HEART
+===================================================== */
+
+function createHeart(){
+
+    const heart =
+        document.createElement("div");
+
+    heart.className="heart";
+
+
+    const symbols=[
+        "♡",
+        "♥",
+        "♡",
+        "♥",
+        "♡"
+    ];
+
+    heart.textContent =
+        symbols[
+            Math.floor(
+                Math.random()*symbols.length
+            )
+        ];
+
+
+    const size =
+        12 + Math.random()*23;
+
+    const duration =
+        6 + Math.random()*7;
+
+    const left =
+        Math.random()*100;
+
+    const sway =
+        Math.random()*180-90;
+
+    const sway2 =
+        Math.random()*220-110;
+
+    const opacity =
+        .25 + Math.random()*.55;
+
+
+    heart.style.left=left+"vw";
+
+    heart.style.setProperty(
+        "--size",
+        size+"px"
+    );
+
+    heart.style.setProperty(
+        "--duration",
+        duration+"s"
+    );
+
+    heart.style.setProperty(
+        "--sway",
+        sway+"px"
+    );
+
+    heart.style.setProperty(
+        "--sway2",
+        sway2+"px"
+    );
+
+    heart.style.setProperty(
+        "--opacity",
+        opacity
+    );
+
+
+    document.body.appendChild(heart);
+
+
+    setTimeout(()=>{
+
+        heart.remove();
+
+    },(duration+1)*1000);
+
+}
+
+
+/* =====================================================
+   SPARKLES
+===================================================== */
+
+function createSparkle(){
+
+    const sparkle =
+        document.createElement("div");
+
+    sparkle.className="sparkle";
+
+    sparkle.textContent =
+        Math.random()>.5
+        ? "✦"
+        : "✧";
+
+
+    sparkle.style.left =
+        Math.random()*100+"vw";
+
+    sparkle.style.top =
+        Math.random()*100+"vh";
+
+    sparkle.style.fontSize =
+        (8+Math.random()*14)+"px";
+
+
+    document.body.appendChild(sparkle);
+
+
+    setTimeout(()=>{
+
+        sparkle.remove();
+
+    },2500);
+
+}
+
+
+/* =====================================================
+   VIDEO ERROR
+===================================================== */
+
+bgVideo.addEventListener("error",()=>{
+
+    bgVideo.style.display="none";
+
+});
+
+
+/* =====================================================
+   PAGE VISIBILITY
+===================================================== */
+
+document.addEventListener(
+    "visibilitychange",
+    ()=>{
+
+        if(document.hidden){
+
+            if(!bgVideo.paused){
+                bgVideo.pause();
+            }
+
+            if(!music.paused){
+                music.pause();
+            }
+
+        }
+
     }
+);
 
-
-    /*
-      Move the cord downward.
-    */
-
-    function movePull(event) {
-
-      if (!dragging) return;
-
-      currentPull =
-        Math.max(
-          0,
-          event.clientY - pointerStartY
-        );
-
-      const visualPull =
-        Math.min(
-          currentPull,
-          MAX_PULL
-        );
-
-      setCordLength(
-        NORMAL_LENGTH + visualPull
-      );
-
-
-      /*
-        When the user pulls far enough,
-        toggle the lamp.
-      */
-
-      if (
-        currentPull >= TRIGGER_DISTANCE &&
-        !hasTriggered
-      ) {
-
-        hasTriggered = true;
-
-        toggleLight();
-      }
-    }
-
-
-    /*
-      Release the cord.
-    */
-
-    function endPull() {
-
-      if (!dragging) return;
-
-      dragging = false;
-
-      cordZone.classList.remove(
-        "pulling"
-      );
-
-      /*
-        The cord smoothly returns
-        to its normal position.
-      */
-
-      setCordLength(
-        NORMAL_LENGTH
-      );
-    }
-
-
-    /*
-      Turn the lamp on/off.
-    */
-
-    function toggleLight() {
-
-      lightOn = !lightOn;
-
-      body.classList.toggle(
-        "lit",
-        lightOn
-      );
-
-
-      if (lightOn) {
-
-        instruction.innerHTML =
-          '<span class="arrow">↓</span> Pull again to turn it off';
-
-        createParticles(24);
-
-      } else {
-
-        instruction.innerHTML =
-          '<span class="arrow">↓</span> Pull the cord down';
-      }
-    }
-
-
-    /*
-      Create floating hearts and stars.
-    */
-
-    function createParticles(count) {
-
-      for (
-        let i = 0;
-        i < count;
-        i++
-      ) {
-
-        const particle =
-          document.createElement("span");
-
-        particle.className =
-          "particle";
-
-        particle.textContent =
-          Math.random() > 0.18
-            ? "♥"
-            : "✦";
-
-
-        particle.style.left =
-          `${Math.random() * 100}%`;
-
-        particle.style.fontSize =
-          `${12 + Math.random() * 20}px`;
-
-        particle.style.animationDuration =
-          `${4 + Math.random() * 4}s`;
-
-        particle.style.animationDelay =
-          `${Math.random() * 1.2}s`;
-
-        particle.style.setProperty(
-          "--drift",
-          `${-70 + Math.random() * 140}px`
-        );
-
-
-        particles.appendChild(
-          particle
-        );
-
-
-        setTimeout(
-          () => particle.remove(),
-          9000
-        );
-      }
-    }
-
-
-    /*
-      Pointer events:
-      Works with mouse, touch and stylus.
-    */
-
-    cordZone.addEventListener(
-      "pointerdown",
-      startPull
-    );
-
-    cordZone.addEventListener(
-      "pointermove",
-      movePull
-    );
-
-    cordZone.addEventListener(
-      "pointerup",
-      endPull
-    );
-
-    cordZone.addEventListener(
-      "pointercancel",
-      endPull
-    );
-
-
-    /*
-      Prevent the page from scrolling
-      while touching the cord.
-    */
-
-    cordZone.addEventListener(
-      "touchstart",
-      event => event.preventDefault(),
-      { passive: false }
-    );
-
-
-    /*
-      Initial cord position.
-    */
-
-    setCordLength(
-      NORMAL_LENGTH
-    );
-
-  </script>
+</script>
 
 </body>
 </html>
+```
