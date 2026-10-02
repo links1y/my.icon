@@ -25,9 +25,9 @@ body{
     font-family:Georgia,"Times New Roman",serif;
 }
 
-/* =====================================================
+/* =========================
    BACKGROUND
-===================================================== */
+========================= */
 
 .page{
     position:fixed;
@@ -39,8 +39,6 @@ body{
         radial-gradient(circle at 50% 100%,rgba(247,146,181,.25),transparent 45%),
         linear-gradient(135deg,#fff7fa,#ffe9f1,#fff5f8);
 }
-
-/* Decorative glowing blobs */
 
 .glow{
     position:absolute;
@@ -78,9 +76,9 @@ body{
     animation:blobThree 7s ease-in-out infinite alternate;
 }
 
-/* =====================================================
+/* =========================
    VIDEO FRAME
-===================================================== */
+========================= */
 
 .video-frame{
     position:absolute;
@@ -105,25 +103,22 @@ body{
     width:100%;
     height:100%;
     object-fit:cover;
+    display:block;
 }
+
+/* NO BLUR / NO COLOR OVERLAY */
 
 .video-frame::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    z-index:2;
-    background:
-        linear-gradient(
-            180deg,
-            rgba(255,255,255,.08),
-            rgba(255,192,214,.20)
-        );
-    pointer-events:none;
+    display:none;
 }
 
-/* =====================================================
+.video-frame::after{
+    display:none;
+}
+
+/* =========================
    DECORATIVE CORNERS
-===================================================== */
+========================= */
 
 .corner{
     position:fixed;
@@ -154,9 +149,9 @@ body{
     right:25px;
 }
 
-/* =====================================================
+/* =========================
    INTRO
-===================================================== */
+========================= */
 
 #intro{
     position:fixed;
@@ -189,17 +184,15 @@ body{
     width:min(90%,520px);
     text-align:center;
     padding:40px 25px;
-
     position:relative;
 
     animation:introFloat 4s ease-in-out infinite;
 }
 
-/* Little crown */
-
 .crown{
     font-size:30px;
     margin-bottom:15px;
+
     animation:crownGlow 2s ease-in-out infinite;
 }
 
@@ -215,9 +208,9 @@ body{
     margin-bottom:32px;
 }
 
-/* =====================================================
+/* =========================
    START BUTTON
-===================================================== */
+========================= */
 
 #startBtn{
     position:relative;
@@ -247,7 +240,6 @@ body{
         inset 0 1px 0 white;
 
     transition:.35s ease;
-
     overflow:hidden;
 }
 
@@ -276,6 +268,7 @@ body{
 
 #startBtn:hover{
     transform:translateY(-5px) scale(1.04);
+
     box-shadow:
         0 18px 45px rgba(216,75,123,.28);
 }
@@ -284,9 +277,9 @@ body{
     transform:scale(.96);
 }
 
-/* =====================================================
+/* =========================
    COUNTDOWN
-===================================================== */
+========================= */
 
 #chrono{
     width:145px;
@@ -322,9 +315,9 @@ body{
     animation:timerPulse 1s ease-in-out infinite;
 }
 
-/* =====================================================
+/* =========================
    MAIN
-===================================================== */
+========================= */
 
 #main{
     position:fixed;
@@ -337,9 +330,9 @@ body{
     display:block;
 }
 
-/* =====================================================
+/* =========================
    GLASS CARD
-===================================================== */
+========================= */
 
 .card{
     position:absolute;
@@ -385,8 +378,6 @@ body{
     animation:cardIn 1.2s cubic-bezier(.16,1,.3,1) forwards;
 }
 
-/* glowing border */
-
 .card::before{
     content:"";
     position:absolute;
@@ -398,8 +389,6 @@ body{
 
     pointer-events:none;
 }
-
-/* Scrollbar */
 
 .card::-webkit-scrollbar{
     width:6px;
@@ -419,9 +408,9 @@ body{
     scrollbar-color:#ff9fba rgba(255,182,193,.1);
 }
 
-/* =====================================================
+/* =========================
    PROFILE
-===================================================== */
+========================= */
 
 .profile{
     text-align:center;
@@ -452,8 +441,6 @@ body{
     animation:avatarFloat 5s ease-in-out infinite;
 }
 
-/* decorative heart around avatar */
-
 .avatar-wrap::before,
 .avatar-wrap::after{
     position:absolute;
@@ -465,6 +452,7 @@ body{
     content:"♡";
     left:-28px;
     top:20px;
+
     animation:miniFloat 3s ease-in-out infinite;
 }
 
@@ -472,11 +460,13 @@ body{
     content:"♡";
     right:-28px;
     bottom:18px;
+
     animation:miniFloat 3.5s ease-in-out infinite reverse;
 }
 
 .profile h1{
     color:#d84b7b;
+
     font-size:clamp(2.4rem,7vw,3.7rem);
     font-weight:normal;
     line-height:1.1;
@@ -493,9 +483,9 @@ body{
     font-style:italic;
 }
 
-/* =====================================================
-   DECORATIVE DIVIDER
-===================================================== */
+/* =========================
+   DIVIDER
+========================= */
 
 .divider{
     display:flex;
@@ -515,6 +505,7 @@ body{
     content:"";
     height:1px;
     flex:1;
+
     background:
         linear-gradient(
             90deg,
@@ -528,9 +519,9 @@ body{
     padding:0 12px;
 }
 
-/* =====================================================
+/* =========================
    MESSAGE
-===================================================== */
+========================= */
 
 .message{
     position:relative;
@@ -553,9 +544,9 @@ body{
     font-size:1.6em;
 }
 
-/* =====================================================
+/* =========================
    SIGNATURE
-===================================================== */
+========================= */
 
 .signature{
     text-align:center;
@@ -581,14 +572,15 @@ body{
 
     -webkit-background-clip:text;
     background-clip:text;
+
     color:transparent;
 
     animation:signatureShine 5s linear infinite;
 }
 
-/* =====================================================
-   SOUND BUTTON
-===================================================== */
+/* =========================
+   SOUND HINT
+========================= */
 
 #soundHint{
     position:fixed;
@@ -628,6 +620,7 @@ body{
 #soundHint.hidden{
     opacity:0;
     pointer-events:none;
+
     transform:
         translateX(-50%)
         translateY(20px);
@@ -639,17 +632,15 @@ body{
         translateY(-4px);
 }
 
-/* =====================================================
+/* =========================
    HEARTS
-===================================================== */
+========================= */
 
 .heart{
     position:fixed;
-
     top:-50px;
 
     z-index:60;
-
     pointer-events:none;
 
     color:#d84b7b;
@@ -667,7 +658,9 @@ body{
         heartFall var(--duration) linear forwards;
 }
 
-/* tiny sparkles */
+/* =========================
+   SPARKLES
+========================= */
 
 .sparkle{
     position:fixed;
@@ -684,14 +677,15 @@ body{
     animation:sparkleFade 2.5s ease forwards;
 }
 
-/* =====================================================
+/* =========================
    ANIMATIONS
-===================================================== */
+========================= */
 
 @keyframes introFloat{
     0%,100%{
         transform:translateY(0);
     }
+
     50%{
         transform:translateY(-9px);
     }
@@ -702,6 +696,7 @@ body{
         transform:scale(1);
         filter:drop-shadow(0 0 0 transparent);
     }
+
     50%{
         transform:scale(1.12);
         filter:drop-shadow(0 0 12px rgba(216,75,123,.45));
@@ -711,12 +706,15 @@ body{
 @keyframes timerPulse{
     0%,100%{
         transform:scale(1);
+
         box-shadow:
             0 0 0 8px rgba(216,75,123,.04),
             0 0 45px rgba(216,75,123,.2);
     }
+
     50%{
         transform:scale(1.08);
+
         box-shadow:
             0 0 0 17px rgba(216,75,123,.025),
             0 0 65px rgba(216,75,123,.3);
@@ -726,6 +724,7 @@ body{
 @keyframes cardIn{
     from{
         opacity:0;
+
         transform:
             translate(-50%,-47%)
             scale(.91);
@@ -733,6 +732,7 @@ body{
 
     to{
         opacity:1;
+
         transform:
             translate(-50%,-50%)
             scale(1);
@@ -840,6 +840,7 @@ body{
     from{
         transform:translate(0,0) scale(1);
     }
+
     to{
         transform:translate(80px,50px) scale(1.25);
     }
@@ -849,6 +850,7 @@ body{
     from{
         transform:translate(0,0) scale(1);
     }
+
     to{
         transform:translate(-70px,-50px) scale(1.2);
     }
@@ -858,14 +860,15 @@ body{
     from{
         transform:translate(-50%,-50%) scale(1);
     }
+
     to{
         transform:translate(-50%,-50%) scale(1.5);
     }
 }
 
-/* =====================================================
+/* =========================
    MOBILE
-===================================================== */
+========================= */
 
 @media(max-width:600px){
 
@@ -917,6 +920,7 @@ body{
 }
 
 @media(prefers-reduced-motion:reduce){
+
     *,
     *::before,
     *::after{
@@ -929,9 +933,9 @@ body{
 
 <body>
 
-<!-- =====================================================
+<!-- =========================
      BACKGROUND
-===================================================== -->
+========================= -->
 
 <div class="page">
 
@@ -967,9 +971,9 @@ body{
 <div class="corner br">♡</div>
 
 
-<!-- =====================================================
+<!-- =========================
      INTRO
-===================================================== -->
+========================= -->
 
 <section id="intro">
 
@@ -994,9 +998,9 @@ body{
 </section>
 
 
-<!-- =====================================================
-     MAIN
-===================================================== -->
+<!-- =========================
+     MAIN MESSAGE
+========================= -->
 
 <main id="main">
 
@@ -1073,18 +1077,18 @@ body{
 </main>
 
 
-<!-- =====================================================
+<!-- =========================
      SOUND HINT
-===================================================== -->
+========================= -->
 
 <button id="soundHint" class="hidden">
     🔊 Tap here to enable sound
 </button>
 
 
-<!-- =====================================================
-     AUDIO
-===================================================== -->
+<!-- =========================
+     ONLY MUSIC
+========================= -->
 
 <audio
     id="music"
@@ -1100,35 +1104,47 @@ body{
 
 <script>
 
-/* =====================================================
+/* =========================
    ELEMENTS
-===================================================== */
+========================= */
 
-const intro = document.getElementById("intro");
-const introTitle = document.getElementById("introTitle");
-const startBtn = document.getElementById("startBtn");
-const chrono = document.getElementById("chrono");
+const intro =
+    document.getElementById("intro");
 
-const main = document.getElementById("main");
+const introTitle =
+    document.getElementById("introTitle");
 
-const bgVideo = document.getElementById("bgVideo");
-const music = document.getElementById("music");
+const startBtn =
+    document.getElementById("startBtn");
 
-const soundHint = document.getElementById("soundHint");
+const chrono =
+    document.getElementById("chrono");
+
+const main =
+    document.getElementById("main");
+
+const bgVideo =
+    document.getElementById("bgVideo");
+
+const music =
+    document.getElementById("music");
+
+const soundHint =
+    document.getElementById("soundHint");
 
 
-/* =====================================================
+/* =========================
    VARIABLES
-===================================================== */
+========================= */
 
 let countdown = 10;
 let countdownInterval = null;
 let heartsStarted = false;
 
 
-/* =====================================================
-   START
-===================================================== */
+/* =========================
+   START COUNTDOWN
+========================= */
 
 startBtn.addEventListener("click", () => {
 
@@ -1160,9 +1176,9 @@ startBtn.addEventListener("click", () => {
 });
 
 
-/* =====================================================
+/* =========================
    TIMER
-===================================================== */
+========================= */
 
 function updateTimer(){
 
@@ -1173,9 +1189,9 @@ function updateTimer(){
 }
 
 
-/* =====================================================
+/* =========================
    OPEN MESSAGE
-===================================================== */
+========================= */
 
 async function openMessage(){
 
@@ -1184,45 +1200,26 @@ async function openMessage(){
     main.classList.add("visible");
 
 
-    /*
-       Start video
-    */
+    /* Video starts */
 
     bgVideo.currentTime = 0;
-
-
-    /*
-       Start music from beginning
-    */
-
-    music.currentTime = 0;
-    music.volume = 1;
-
-
-    /*
-       Try video + music together.
-       Because the user physically clicked
-       the button before the countdown,
-       browser autoplay restrictions are
-       much less likely to interfere.
-    */
+    bgVideo.muted = true;
 
     try{
-
-        bgVideo.muted = false;
 
         await bgVideo.play();
 
     }catch(error){
 
-        bgVideo.muted = true;
-
-        try{
-            await bgVideo.play();
-        }catch(e){}
+        console.log("Video playback blocked.");
 
     }
 
+
+    /* Song starts from beginning */
+
+    music.currentTime = 0;
+    music.volume = 1;
 
     try{
 
@@ -1232,15 +1229,12 @@ async function openMessage(){
 
     }catch(error){
 
-        /*
-           If browser blocks audio,
-           show the manual sound button.
-        */
-
         soundHint.classList.remove("hidden");
 
     }
 
+
+    /* Hearts */
 
     if(!heartsStarted){
 
@@ -1253,9 +1247,9 @@ async function openMessage(){
 }
 
 
-/* =====================================================
-   SOUND BUTTON
-===================================================== */
+/* =========================
+   ENABLE SOUND
+========================= */
 
 soundHint.addEventListener("click",async()=>{
 
@@ -1266,7 +1260,11 @@ soundHint.addEventListener("click",async()=>{
 
         await bgVideo.play();
 
-    }catch(error){}
+    }catch(error){
+
+        console.log("Video audio unavailable.");
+
+    }
 
 
     try{
@@ -1286,15 +1284,11 @@ soundHint.addEventListener("click",async()=>{
 });
 
 
-/* =====================================================
+/* =========================
    HEART SYSTEM
-===================================================== */
+========================= */
 
 function startHearts(){
-
-    /*
-       First romantic burst
-    */
 
     for(let i=0;i<18;i++){
 
@@ -1304,21 +1298,12 @@ function startHearts(){
 
     }
 
-
-    /*
-       Continuous falling hearts
-    */
-
     setInterval(()=>{
 
         createHeart();
 
     },550);
 
-
-    /*
-       Extra sparkles
-    */
 
     setInterval(()=>{
 
@@ -1329,9 +1314,9 @@ function startHearts(){
 }
 
 
-/* =====================================================
+/* =========================
    CREATE HEART
-===================================================== */
+========================= */
 
 function createHeart(){
 
@@ -1376,7 +1361,8 @@ function createHeart(){
         .25 + Math.random()*.55;
 
 
-    heart.style.left=left+"vw";
+    heart.style.left =
+        left+"vw";
 
     heart.style.setProperty(
         "--size",
@@ -1416,9 +1402,9 @@ function createHeart(){
 }
 
 
-/* =====================================================
+/* =========================
    SPARKLES
-===================================================== */
+========================= */
 
 function createSparkle(){
 
@@ -1455,9 +1441,9 @@ function createSparkle(){
 }
 
 
-/* =====================================================
+/* =========================
    VIDEO ERROR
-===================================================== */
+========================= */
 
 bgVideo.addEventListener("error",()=>{
 
@@ -1466,9 +1452,9 @@ bgVideo.addEventListener("error",()=>{
 });
 
 
-/* =====================================================
-   PAGE VISIBILITY
-===================================================== */
+/* =========================
+   VISIBILITY
+========================= */
 
 document.addEventListener(
     "visibilitychange",
